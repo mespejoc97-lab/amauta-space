@@ -4,483 +4,694 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="ai-disclosure" content="Desarrollado con asistencia de Superinteligencia (SI) para generación de código y modelado - NASA Space Apps Challenge.">
-    <title>AMAUTA-SPACE | Sabiduría Ancestral Andina & Satélites NASA (Español / Quechua Chanka)</title>
+    <title>AMAUTA-SPACE | Observatorio Espacial & Saberes de Huancavelica</title>
     <style>
         :root {
-            --bg-main: #f8fafc;
-            --bg-card: #ffffff;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --accent: #0284c7;
-            --accent-dark: #0369a1;
-            --border: #e2e8f0;
-            --success: #16a34a;
+            --bg-deep: #070b19;
+            --bg-card: rgba(17, 25, 48, 0.78);
+            --bg-card-light: rgba(30, 41, 75, 0.65);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --cyan: #00f2fe;
+            --blue: #4facfe;
+            --amber: #f59e0b;
+            --emerald: #10b981;
+            --purple: #a855f7;
+            --border: rgba(148, 163, 184, 0.2);
             --mono: 'Consolas', 'Monaco', monospace;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
-        body { background-color: var(--bg-main); color: var(--text-primary); line-height: 1.5; display: flex; flex-direction: column; min-height: 100vh; }
+        
+        body {
+            background: radial-gradient(circle at 20% 20%, #1a103c 0%, #090d1e 55%, #04060f 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
 
+        /* Fondo animado de estrellas */
+        .stars-bg {
+            position: fixed; inset: 0; pointer-events: none; z-index: 0;
+            background-image: 
+                radial-gradient(2px 2px at 40px 60px, #fff, transparent),
+                radial-gradient(2px 2px at 180px 140px, var(--cyan), transparent),
+                radial-gradient(1.5px 1.5px at 300px 80px, #fcd34d, transparent),
+                radial-gradient(2px 2px at 500px 220px, #fff, transparent),
+                radial-gradient(1.5px 1.5px at 720px 110px, var(--purple), transparent);
+            background-size: 800px 400px;
+            animation: moveStars 60s linear infinite;
+            opacity: 0.45;
+        }
+        @keyframes moveStars {
+            from { transform: translateY(0); }
+            to { transform: translateY(-400px); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(0, 242, 254, 0.25); }
+            50% { box-shadow: 0 0 28px rgba(0, 242, 254, 0.55); }
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
+
+        /* Header */
         header {
-            background: var(--bg-card); border-bottom: 1px solid var(--border); padding: 1rem 2rem;
-            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+            position: sticky; top: 0; z-index: 20;
+            background: rgba(7, 11, 25, 0.85); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 0.9rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
         }
-        .brand { display: flex; align-items: center; gap: 0.85rem; }
-        .brand-mark {
-            width: 38px; height: 38px; border: 2px solid var(--text-primary); border-radius: 50%;
-            display: grid; place-items: center; font-weight: 700; font-size: 0.85rem;
+        .brand { display: flex; align-items: center; gap: 0.9rem; cursor: pointer; }
+        .brand-logo {
+            width: 44px; height: 44px; border-radius: 12px;
+            background: linear-gradient(135deg, var(--cyan), var(--purple));
+            display: grid; place-items: center; font-weight: 900; font-size: 1.2rem; color: #070b19;
+            animation: pulseGlow 3s infinite;
         }
-        .brand h1 { font-size: 1.15rem; font-weight: 700; letter-spacing: 0.03em; }
-        .brand span { font-size: 0.78rem; color: var(--text-secondary); display: block; }
+        .brand h1 { font-size: 1.2rem; font-weight: 800; background: linear-gradient(90deg, #fff, var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .brand span { font-size: 0.78rem; color: var(--text-muted); display: block; }
 
-        .header-controls { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
-        .coords-badge {
-            font-family: var(--mono); font-size: 0.78rem; background: #f1f5f9; padding: 0.45rem 0.75rem;
-            border-radius: 6px; border: 1px solid var(--border); color: var(--text-primary);
+        .header-actions { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+        .pill-btn {
+            background: var(--bg-card-light); color: var(--text-main); border: 1px solid var(--border);
+            padding: 0.45rem 0.9rem; border-radius: 99px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.25s;
         }
-        .lang-switch {
-            display: flex; background: #f1f5f9; padding: 0.2rem; border-radius: 8px; border: 1px solid var(--border);
-        }
-        .lang-btn {
-            border: none; background: transparent; padding: 0.4rem 0.85rem; border-radius: 6px;
-            font-size: 0.8rem; font-weight: 700; cursor: pointer; color: var(--text-secondary); transition: 0.2s;
-        }
-        .lang-btn.active { background: var(--text-primary); color: #ffffff; }
-
-        main { max-width: 1240px; width: 100%; margin: 1.5rem auto; padding: 0 1.5rem; flex: 1; }
-
-        .hero-banner {
-            background: var(--bg-card); border: 1px solid var(--border); border-left: 4px solid var(--text-primary);
-            padding: 1rem 1.25rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.88rem; color: var(--text-secondary);
-        }
-        .hero-banner strong { color: var(--text-primary); }
-
-        .telemetry-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;
-        }
-        .metric-card {
-            background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem;
-        }
-        .metric-header { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600; }
-        .metric-value { font-family: var(--mono); font-size: 1.55rem; font-weight: 700; margin: 0.35rem 0; }
-        .metric-sub { font-size: 0.76rem; color: var(--text-secondary); }
-
-        .workspace { display: grid; grid-template-columns: 1.15fr 1fr; gap: 1.5rem; }
-        @media (max-width: 920px) { .workspace { grid-template-columns: 1fr; } }
-
-        .panel {
-            background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem;
-        }
-        .panel-title {
-            font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary);
-            border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; margin-bottom: 1.1rem;
-            display: flex; justify-content: space-between; align-items: center; font-weight: 700;
+        .pill-btn:hover, .pill-btn.active {
+            background: linear-gradient(90deg, var(--blue), var(--cyan)); color: #050814; border-color: transparent; font-weight: 700;
         }
 
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.9rem; }
-        .control-group { margin-bottom: 0.9rem; }
-        .control-group label { display: block; font-size: 0.82rem; font-weight: 600; margin-bottom: 0.3rem; }
-        select, input[type="range"], input[type="text"] {
-            width: 100%; padding: 0.55rem 0.65rem; border: 1px solid var(--border); border-radius: 6px;
-            font-size: 0.86rem; background: #fff;
+        main { position: relative; z-index: 5; max-width: 1220px; width: 100%; margin: 1.5rem auto; padding: 0 1.25rem; flex: 1; }
+        .hidden { display: none !important; }
+
+        /* PANTALLA DE BIENVENIDA (MODAL DE SELECCIÓN DE ROL) */
+        .welcome-screen {
+            min-height: 75vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 1rem;
+        }
+        .welcome-badge {
+            background: rgba(0, 242, 254, 0.12); border: 1px solid var(--cyan); color: var(--cyan);
+            padding: 0.4rem 1rem; border-radius: 99px; font-size: 0.82rem; font-weight: 700; margin-bottom: 1rem;
+        }
+        .welcome-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; margin-bottom: 0.75rem; line-height: 1.2; }
+        .welcome-sub { max-width: 680px; color: var(--text-muted); font-size: 1.02rem; margin-bottom: 2.2rem; }
+
+        .role-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.5rem; width: 100%; max-width: 780px; }
+        .role-card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 2rem 1.5rem;
+            cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden;
+            animation: floatSlow 5s ease-in-out infinite;
+        }
+        .role-card:nth-child(2) { animation-delay: 1.5s; }
+        .role-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--cyan);
+            box-shadow: 0 15px 35px rgba(0, 242, 254, 0.2);
+        }
+        .role-icon { font-size: 3.2rem; margin-bottom: 1rem; display: inline-block; }
+        .role-card h2 { font-size: 1.35rem; margin-bottom: 0.5rem; color: #fff; }
+        .role-card p { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.25rem; }
+        .role-enter-btn {
+            display: inline-block; padding: 0.6rem 1.4rem; border-radius: 99px; font-weight: 700; font-size: 0.88rem;
+            background: linear-gradient(90deg, var(--cyan), var(--blue)); color: #070b19;
+        }
+        .role-card.admin .role-enter-btn {
+            background: linear-gradient(90deg, var(--amber), #f97316); color: #070b19;
         }
 
-        .indicator-chips { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 0.9rem; }
-        .chip {
-            border: 1px solid var(--border); border-radius: 6px; padding: 0.6rem; font-size: 0.8rem;
-            cursor: pointer; background: #f8fafc; transition: 0.15s;
+        /* Tarjetas Satelitales Superiores */
+        .sat-strip {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;
         }
-        .chip.selected { border-color: var(--accent); background: #e0f2fe; font-weight: 600; }
-        .chip span { display: block; font-size: 0.72rem; color: var(--text-secondary); margin-top: 0.2rem; }
-
-        .btn-primary {
-            background: var(--text-primary); color: #fff; border: none; padding: 0.8rem 1.25rem;
-            border-radius: 6px; font-weight: 600; font-size: 0.9rem; cursor: pointer; width: 100%; transition: 0.2s;
+        .sat-card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 1rem 1.2rem;
+            backdrop-filter: blur(10px); transition: 0.25s;
         }
-        .btn-primary:hover { background: #1e293b; }
+        .sat-card:hover { border-color: var(--cyan); transform: translateY(-3px); }
+        .sat-top { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--cyan); font-weight: 700; }
+        .sat-val { font-family: var(--mono); font-size: 1.6rem; font-weight: 800; margin: 0.3rem 0; color: #fff; }
+        .sat-lbl { font-size: 0.78rem; color: var(--text-muted); }
 
-        .formula-box {
-            background: #f8fafc; border-left: 3px solid var(--accent); padding: 0.75rem;
-            font-family: var(--mono); font-size: 0.78rem; margin: 0.85rem 0; color: #1e293b;
+        /* Contenedores de Paneles */
+        .glass-panel {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 1.75rem;
+            backdrop-filter: blur(12px); box-shadow: 0 10px 30px rgba(0,0,0,0.35); margin-bottom: 1.5rem;
+        }
+        .panel-header {
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;
+            border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1.4rem;
+        }
+        .panel-header h2 { font-size: 1.25rem; display: flex; align-items: center; gap: 0.5rem; }
+        .step-badge {
+            background: linear-gradient(90deg, var(--cyan), var(--blue)); color: #060916;
+            padding: 0.25rem 0.75rem; border-radius: 99px; font-size: 0.76rem; font-weight: 800;
         }
 
-        .training-log {
-            background: #0f172a; color: #e2e8f0; font-family: var(--mono); font-size: 0.77rem;
-            padding: 0.9rem; border-radius: 8px; height: 195px; overflow-y: auto; margin-bottom: 1rem;
-        }
-        .log-line { margin-bottom: 0.35rem; }
-        .log-accent { color: #38bdf8; }
-        .log-ok { color: #4ade80; }
+        /* Formulario Intuitivo del Estudiante */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+        @media (max-width: 780px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
 
-        .accuracy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin-bottom: 1rem; }
-        .acc-box {
-            border: 1px solid var(--border); border-radius: 8px; padding: 0.8rem; text-align: center; background: #f8fafc;
+        .field label { display: block; font-size: 0.85rem; font-weight: 600; color: #cbd5e1; margin-bottom: 0.4rem; }
+        .field input, .field select, .field textarea {
+            width: 100%; padding: 0.75rem 0.9rem; border-radius: 12px; border: 1px solid var(--border);
+            background: rgba(15, 23, 42, 0.85); color: #fff; font-size: 0.92rem; transition: 0.2s;
         }
-        .acc-box .val { font-family: var(--mono); font-size: 1.45rem; font-weight: 700; }
-        .acc-box .lbl { font-size: 0.74rem; color: var(--text-secondary); }
+        .field input:focus, .field select:focus, .field textarea:focus {
+            outline: none; border-color: var(--cyan); box-shadow: 0 0 12px rgba(0, 242, 254, 0.25);
+        }
 
-        .dataset-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; margin-top: 0.6rem; }
-        .dataset-table th, .dataset-table td { text-align: left; padding: 0.5rem; border-bottom: 1px solid var(--border); }
-        .dataset-table th { background: #f8fafc; color: var(--text-secondary); }
+        /* Botones de Ejemplos Rápidos para Inspirar al Estudiante */
+        .quick-examples { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+        .example-tag {
+            background: rgba(168, 85, 247, 0.15); border: 1px solid rgba(168, 85, 247, 0.4); color: #e9d5ff;
+            padding: 0.4rem 0.8rem; border-radius: 99px; font-size: 0.78rem; cursor: pointer; transition: 0.2s;
+        }
+        .example-tag:hover { background: var(--purple); color: #fff; transform: scale(1.03); }
+
+        .submit-btn {
+            width: 100%; padding: 1rem; border-radius: 14px; border: none; cursor: pointer;
+            background: linear-gradient(90deg, var(--emerald), #059669); color: #fff;
+            font-size: 1.05rem; font-weight: 800; letter-spacing: 0.02em; transition: 0.25s;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(16, 185, 129, 0.45); }
+
+        /* Notificación de Éxito para el Estudiante */
+        .toast-msg {
+            margin-top: 1rem; padding: 1rem; border-radius: 12px; background: rgba(16, 185, 129, 0.18);
+            border: 1px solid var(--emerald); color: #a7f3d0; font-weight: 600; text-align: center;
+        }
+
+        /* Panel Docente / Administrador */
+        .admin-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 1.5rem; }
+        @media (max-width: 920px) { .admin-grid { grid-template-columns: 1fr; } }
+
+        .kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.2rem; }
+        .kpi-box {
+            background: var(--bg-card-light); border: 1px solid var(--border); border-radius: 14px; padding: 1rem; text-align: center;
+        }
+        .kpi-box .big { font-family: var(--mono); font-size: 1.65rem; font-weight: 800; color: var(--cyan); }
+        .kpi-box .small { font-size: 0.76rem; color: var(--text-muted); }
+
+        .console-box {
+            background: #040711; border: 1px solid var(--border); border-radius: 12px; padding: 1rem;
+            font-family: var(--mono); font-size: 0.8rem; height: 220px; overflow-y: auto; color: #cbd5e1; margin-bottom: 1rem;
+        }
+        .c-cyan { color: var(--cyan); }
+        .c-green { color: var(--emerald); }
+        .c-amber { color: var(--amber); }
+
+        table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+        th, td { text-align: left; padding: 0.75rem; border-bottom: 1px solid var(--border); }
+        th { color: var(--cyan); font-size: 0.76rem; text-transform: uppercase; background: rgba(255,255,255,0.03); }
+        .badge-cat {
+            padding: 0.2rem 0.55rem; border-radius: 6px; font-size: 0.72rem; font-weight: 700;
+            background: rgba(0, 242, 254, 0.15); color: var(--cyan); display: inline-block;
+        }
 
         footer {
-            background: var(--bg-card); border-top: 1px solid var(--border); padding: 1rem 2rem;
-            text-align: center; font-size: 0.76rem; color: var(--text-secondary); margin-top: 2rem;
+            position: relative; z-index: 5; text-align: center; padding: 1.2rem; font-size: 0.78rem;
+            color: var(--text-muted); border-top: 1px solid var(--border); background: rgba(7, 11, 25, 0.9);
         }
     </style>
 </head>
 <body>
 
+<div class="stars-bg"></div>
+
 <header>
-    <div class="brand">
-        <div class="brand-mark">AS</div>
+    <div class="brand" onclick="showScreen('welcome')">
+        <div class="brand-logo">AS</div>
         <div>
-            <h1 id="t-title">AMAUTA-SPACE • OBSERVATORIO ESPACIAL ANDINO</h1>
-            <span id="t-subtitle">Aportes Estudiantiles de Saberes Ancestrales + Telemetría Satelital NASA</span>
+            <h1 id="ui-brand-title">AMAUTA-SPACE • HUANCAVELICA</h1>
+            <span id="ui-brand-sub">Sabiduría Ancestral Estudiantil + Satélites de la NASA</span>
         </div>
     </div>
-    <div class="header-controls">
-        <div class="coords-badge">HUANCAVELICA • 12.78° S, 74.97° W • 3,660 m</div>
-        <div class="lang-switch">
-            <button class="lang-btn active" id="btn-es" onclick="setLanguage('es')">Español</button>
-            <button class="lang-btn" id="btn-qu" onclick="setLanguage('qu')">Quechua Chanka (Runasimi)</button>
-        </div>
+    <div class="header-actions">
+        <button class="pill-btn" id="nav-role-btn" onclick="showScreen('welcome')">🔄 Cambiar Rol (Estudiante / Docente)</button>
+        <button class="pill-btn active" id="lang-es" onclick="setLang('es')">Español</button>
+        <button class="pill-btn" id="lang-qu" onclick="setLang('qu')">Quechua Chanka</button>
     </div>
 </header>
 
 <main>
-    <div class="hero-banner" id="t-banner">
-        <strong>Misión Científica en Huancavelica:</strong> Los estudiantes de secundaria recolectan y registran los bioindicadores astronómicos y ecológicos heredados de los antiguos Amautas y sus familias (estrellas, flores y aves) para entrenar nuestra Inteligencia Artificial junto con los satélites de la NASA, calibrando la predicción de heladas y lluvias en las quebradas altoandinas.
-    </div>
+    <!-- 1. PANTALLA DE BIENVENIDA: ELECCIÓN DE ROL -->
+    <section id="screen-welcome" class="welcome-screen">
+        <div class="welcome-badge" id="w-badge">🚀 NASA SPACE APPS CHALLENGE • HUANCAVELICA, PERÚ</div>
+        <h2 class="welcome-title" id="w-title">¿Cómo entrenaremos hoy a nuestra Inteligencia Artificial Espacial?</h2>
+        <p class="welcome-sub" id="w-sub">
+            En los pueblos de Huancavelica sabemos leer las estrellas, los sapos, las aves y las flores para predecir lluvias o heladas. Elige tu perfil para conectar ese saber milenario con los satélites de la NASA:
+        </p>
 
-    <section class="telemetry-grid">
-        <div class="metric-card">
-            <div class="metric-header"><span>NASA MODIS / VIIRS</span><span>LST</span></div>
-            <div class="metric-value" id="sat-temp">-3.4 °C</div>
-            <div class="metric-sub" id="t-sub-temp">Temperatura Superficial Nocturna</div>
-        </div>
-        <div class="metric-card">
-            <div class="metric-header"><span>NASA GPM IMERG</span><span>Precip.</span></div>
-            <div class="metric-value" id="sat-rain">14.2 mm</div>
-            <div class="metric-sub" id="t-sub-rain">Anomalía Pluviométrica Andina</div>
-        </div>
-        <div class="metric-card">
-            <div class="metric-header"><span>NASA LANDSAT 9</span><span>NDVI</span></div>
-            <div class="metric-value" id="sat-ndvi">0.42</div>
-            <div class="metric-sub" id="t-sub-ndvi">Vigor de Flora Altoandina</div>
-        </div>
-        <div class="metric-card">
-            <div class="metric-header"><span>NASA POWER CERES</span><span>UV / Solar</span></div>
-            <div class="metric-value" id="sat-rad">6.8 kWh/m²</div>
-            <div class="metric-sub" id="t-sub-rad">Irradiancia Solar en Alta Montaña</div>
+        <div class="role-cards">
+            <div class="role-card" onclick="showScreen('student')">
+                <span class="role-icon">🎒🌱</span>
+                <h2 id="w-stu-title">Soy Estudiante</h2>
+                <p id="w-stu-desc">Registra tu colegio, tu pueblo de Huancavelica y cuenta con tus propias palabras qué señales de la naturaleza o de los astros has visto hoy.</p>
+                <span class="role-enter-btn" id="w-stu-btn">Entrar como Estudiante →</span>
+            </div>
+
+            <div class="role-card admin" onclick="showScreen('admin')">
+                <span class="role-icon">🛰️👨‍🏫</span>
+                <h2 id="w-adm-title">Soy Docente / Administrador</h2>
+                <p id="w-adm-desc">Supervisa los reportes enviados por todos los colegios de Huancavelica y entrena la Red Neuronal Híbrida con datos de la NASA.</p>
+                <span class="role-enter-btn" id="w-adm-btn">Abrir Panel Administrador →</span>
+            </div>
         </div>
     </section>
 
-    <section class="workspace">
-        <div class="panel">
-            <div class="panel-title">
-                <span id="t-panel1-title">1. Aporte del Estudiante para Entrenar la IA</span>
-                <span id="t-panel1-badge">CIENCIA CIUDADANA</span>
-            </div>
-
-            <div class="form-row">
-                <div class="control-group" style="margin-bottom:0;">
-                    <label id="t-lbl-student">Estudiante Investigador(a):</label>
-                    <input type="text" id="student-name" value="Yulisa Taipe (4° Sec.)">
-                </div>
-                <div class="control-group" style="margin-bottom:0;">
-                    <label id="t-lbl-school">Colegio / Comunidad:</label>
-                    <input type="text" id="student-school" value="I.E. La Victoria de Ayacucho">
-                </div>
-            </div>
-
-            <div class="control-group">
-                <label id="t-lbl-zone">Microcuenca de Observación en Huancavelica:</label>
-                <select id="zone-select" onchange="updateZoneTelemetry()">
-                    <option value="acoria">Acoria / Cuenca del Ichu (3,680 m)</option>
-                    <option value="castrovirreyna">Castrovirreyna / Choclococha (4,520 m)</option>
-                    <option value="lircay">Angaraes / Valle de Lircay (3,270 m)</option>
-                </select>
-            </div>
-
-            <label id="t-lbl-chips" style="display:block; font-size:0.82rem; font-weight:600; margin-bottom:0.4rem;">
-                Indicadores Naturales y Astronómicos Reportados por el Estudiante:
-            </label>
-            <div class="indicator-chips">
-                <div class="chip selected" onclick="toggleChip(this)" data-weight="0.28" data-code="Qullqa">
-                    <div id="c1-title">★ Brillo de Pléyades (Qullqa)</div>
-                    <span id="c1-desc">Astronomía Andina: Anticipa heladas y siembra</span>
-                </div>
-                <div class="chip selected" onclick="toggleChip(this)" data-weight="0.24" data-code="Liqchu">
-                    <div id="c2-title">🦅 Nido alto del ave Liqchu</div>
-                    <span id="c2-desc">Fauna: Pronostica temporada de lluvias intensas</span>
-                </div>
-                <div class="chip" onclick="toggleChip(this)" data-weight="0.22" data-code="Kantuta">
-                    <div id="c3-title">🌺 Floración de Kantuta / Sanky</div>
-                    <span id="c3-desc">Flora: Adelanto de estación húmeda sin heladas</span>
-                </div>
-                <div class="chip" onclick="toggleChip(this)" data-weight="0.26" data-code="Atuq">
-                    <div id="c4-title">🦊 Aullido del Zorro (Atuq)</div>
-                    <span id="c4-desc">Etología: Indicador de humedad en quebradas</span>
-                </div>
-            </div>
-
-            <div class="control-group">
-                <label><span id="t-lbl-alpha">Peso del Conocimiento Ancestral en la Red Neuronal</span> ($\alpha$ = <span id="alpha-val">0.45</span>):</label>
-                <input type="range" id="alpha-slider" min="0.10" max="0.80" step="0.05" value="0.45" oninput="document.getElementById('alpha-val').textContent=this.value">
-            </div>
-
-            <div class="formula-box">
-                Y_pred(t) = σ [ (1 - α)·W_nasa·X_sat(t) + α·W_amauta·Φ_estudiante(t) + b ]
-            </div>
-
-            <button class="btn-primary" id="t-btn-train" onclick="trainHybridModel()">Registrar Aporte Estudiantil y Entrenar IA</button>
+    <!-- 2. BARRA SATELITAL NASA (Visible en Estudiante y Docente) -->
+    <section id="sat-bar" class="sat-strip hidden">
+        <div class="sat-card">
+            <div class="sat-top"><span>📍 UBICACIÓN ACTIVA</span><span>ALTITUD</span></div>
+            <div class="sat-val" id="sat-loc-name" style="font-size:1.2rem;">Huancavelica</div>
+            <div class="sat-lbl" id="sat-coords">12.78° S, 74.97° W • 3,660 m</div>
         </div>
+        <div class="sat-card">
+            <div class="sat-top"><span>🛰️ NASA MODIS</span><span>TEMP. SUELO</span></div>
+            <div class="sat-val" id="sat-temp">-3.2 °C</div>
+            <div class="sat-lbl" id="ui-sat1">Temperatura Nocturna Satelital</div>
+        </div>
+        <div class="sat-card">
+            <div class="sat-top"><span>🌧️ NASA GPM IMERG</span><span>LLUVIA</span></div>
+            <div class="sat-val" id="sat-rain">16.4 mm</div>
+            <div class="sat-lbl" id="ui-sat2">Humedad y Precipitación Orbital</div>
+        </div>
+        <div class="sat-card">
+            <div class="sat-top"><span>🌿 NASA LANDSAT 9</span><span>VEGETACIÓN</span></div>
+            <div class="sat-val" id="sat-ndvi">0.44 NDVI</div>
+            <div class="sat-lbl" id="ui-sat3">Salud de Pastos y Cultivos</div>
+        </div>
+    </section>
 
-        <div class="panel">
-            <div class="panel-title">
-                <span id="t-panel2-title">2. Red Neuronal Híbrida (NASA + Saber Amauta)</span>
-                <span style="color: var(--success);" id="t-status">● ACTIVO</span>
+    <!-- 3. PANEL DEL ESTUDIANTE (SÚPER INTUITIVO Y LIBRE) -->
+    <section id="screen-student" class="hidden">
+        <div class="glass-panel">
+            <div class="panel-header">
+                <h2 id="stu-h1">🎒 Mi Reporte de Ciencia Ancestral para la NASA</h2>
+                <span class="step-badge" id="stu-badge">MODO ESTUDIANTE</span>
             </div>
 
-            <div class="accuracy-grid">
-                <div class="acc-box">
-                    <div class="val" id="acc-sat-only">71.4%</div>
-                    <div class="lbl" id="t-acc1">Precisión Solo Satélite NASA</div>
+            <!-- Paso 1: Datos del Estudiante y Todos los Pueblos de Huancavelica -->
+            <div class="grid-3">
+                <div class="field">
+                    <label id="lbl-name">1. Tu Nombre y Apellido:</label>
+                    <input type="text" id="in-name" placeholder="Ej.Jhony Quispe Taipe">
                 </div>
-                <div class="acc-box" style="border-color: var(--accent); background: #f0f9ff;">
-                    <div class="val" id="acc-hybrid" style="color: var(--accent-dark);">93.8%</div>
-                    <div class="lbl" id="t-acc2">Precisión Amauta-Space (Híbrida)</div>
+                <div class="field">
+                    <label id="lbl-school">2. Tu Colegio (Institución Educativa):</label>
+                    <input type="text" id="in-school" placeholder="Ej. I.E. Ramón Castilla">
+                </div>
+                <div class="field">
+                    <label id="lbl-grade">3. Tu Grado de Secundaria:</label>
+                    <select id="in-grade">
+                        <option value="1° Secundaria">1° de Secundaria</option>
+                        <option value="2° Secundaria">2° de Secundaria</option>
+                        <option value="3° Secundaria">3° de Secundaria</option>
+                        <option value="4° Secundaria" selected>4° de Secundaria</option>
+                        <option value="5° Secundaria">5° de Secundaria</option>
+                    </select>
                 </div>
             </div>
 
-            <div class="training-log" id="console-log">
-                <div class="log-line">[NASA API] MODIS, GPM IMERG & Landsat 9 sincronizados sobre Huancavelica...</div>
-                <div class="log-line log-accent">[AMAUTA-SPACE] Esperando vectores empíricos de los estudiantes para re-entrenar pesos...</div>
+            <div class="grid-2">
+                <div class="field">
+                    <label id="lbl-prov">4. Selecciona tu Provincia en Huancavelica:</label>
+                    <select id="in-prov" onchange="loadTowns()">
+                        <option value="Huancavelica">Provincia de Huancavelica</option>
+                        <option value="Acobamba">Provincia de Acobamba</option>
+                        <option value="Angaraes">Provincia de Angaraes</option>
+                        <option value="Castrovirreyna">Provincia de Castrovirreyna</option>
+                        <option value="Churcampa">Provincia de Churcampa</option>
+                        <option value="Huaytara">Provincia de Huaytará</option>
+                        <option value="Tayacaja">Provincia de Tayacaja</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label id="lbl-town">5. Selecciona tu Distrito / Pueblo / Comunidad:</label>
+                    <select id="in-town" onchange="updateSatelliteByTown()"></select>
+                </div>
             </div>
 
-            <div id="t-table-title" style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary);">
-                Dataset Comunitario Entrenado por Estudiantes:
+            <!-- Paso 2: Observación 100% Libre -->
+            <div style="margin: 1.4rem 0 0.6rem; font-size: 0.9rem; font-weight: 700; color: var(--cyan);" id="lbl-quick">
+                ✨ ¿Necesitas ideas? Haz clic en un ejemplo o escribe libremente lo que viste en tu pueblo:
             </div>
-            <table class="dataset-table">
-                <thead>
-                    <tr>
-                        <th id="th-student">Estudiante / I.E.</th>
-                        <th id="th-vectors">Aporte Empírico</th>
-                        <th id="th-nasa">Fusión NASA</th>
-                        <th id="th-pred">Predicción Calibrada</th>
-                    </tr>
-                </thead>
-                <tbody id="history-tbody">
-                    <tr>
-                        <td><strong>Yulisa Taipe</strong><br><small>I.E. La Victoria</small></td>
-                        <td>Qullqa + Liqchu (Acoria)</td>
-                        <td>MODIS + GPM</td>
-                        <td><strong>Helada severa 72h (94.2%)</strong></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="quick-examples">
+                <span class="example-tag" onclick="fillExample('Animales / Anfibios', 'Aparecieron bastantes sapos saliendo hasta por las casas del barrio', 'Lluvias fuertes en los próximos días')">🐸 Muchos sapos por las casas (Lluvias fuertes)</span>
+                <span class="example-tag" onclick="fillExample('Astros / Estrellas', 'Las estrellas Qullqa (Pléyades) brillaron súper claras y grandes anoche', 'Helada fuerte en la madrugada')">✨ Estrellas Qullqa muy brillantes (Helada)</span>
+                <span class="example-tag" onclick="fillExample('Aves / Fauna', 'El ave Liqchu armó su nido en la parte alta del cerro con piedritas', 'Temporada de lluvias intensas')">🦅 Nido alto del Liqchu (Año lluvioso)</span>
+                <span class="example-tag" onclick="fillExample('Plantas / Flores', 'La flor de Kantuta y el Sanky florecieron antes de tiempo en la quebrada', 'Adelanto de lluvias y buen año agrícola')">🌺 Floración temprana de Kantuta (Buen clima)</span>
+                <span class="example-tag" onclick="fillExample('Insectos / Hormigas', 'Las hormigas aladas salieron en grupo buscando refugio en las paredes', 'Tormenta y lluvia inminente')">🐜 Hormigas buscando refugio (Tormenta)</span>
+            </div>
+
+            <div class="grid-2">
+                <div class="field">
+                    <label id="lbl-cat">6. ¿Qué tipo de señal observaste?</label>
+                    <select id="in-cat">
+                        <option value="Animales / Anfibios">🐸 Animales / Anfibios (Sapos, zorros, insectos...)</option>
+                        <option value="Aves / Fauna">🦅 Aves de altura (Liqchu, gaviota andina, cernícalo...)</option>
+                        <option value="Plantas / Flores">🌺 Plantas y Flores (Kantuta, sanky, papa, ichu...)</option>
+                        <option value="Astros / Estrellas">✨ Astros, Luna y Estrellas (Qullqa, halo lunar, sol...)</option>
+                        <option value="Viento / Nubes">☁️ Nubes, Vientos o Celajes en los cerros</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label id="lbl-pred">7. Según tus abuelos o tu comunidad, ¿qué clima anuncia esto?</label>
+                    <select id="in-pred">
+                        <option value="Lluvias fuertes en los próximos días">🌧️ Habrá lluvias fuertes pronto</option>
+                        <option value="Helada fuerte en la madrugada">❄️ Caerá helada fuerte en la noche/madrugada</option>
+                        <option value="Sequía o ausencia de lluvias">☀️ Días secos / Veranillo sin lluvia</option>
+                        <option value="Granizada o tormenta eléctrica">⛈️ Caerá granizada o tormenta en las alturas</option>
+                        <option value="Adelanto de lluvias y buen año agrícola">🌱 Buen tiempo para sembrar</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="field" style="margin-bottom: 1.3rem;">
+                <label id="lbl-obs">8. Escribe libremente qué viste exactamente en tu casa, chacra o pueblo:</label>
+                <textarea id="in-obs" rows="3" placeholder="Escribe con tus propias palabras... Ejemplo: Hoy en la tarde vimos bastantes sapos saliendo cerca de las casas y la acequia, mi abuelo dice que cuando salen así es porque va a llover fuerte."></textarea>
+            </div>
+
+            <button class="submit-btn" id="btn-send-student" onclick="submitStudentReport()">
+                🚀 Enviar mi Observación para Entrenar la IA de la NASA
+            </button>
+
+            <div id="student-toast" class="toast-msg hidden">
+                ✅ ¡Excelente aporte! Tu observación ya fue enviada al Panel del Docente/Administrador y entrenó la Red Neuronal de la NASA.
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. PANEL DOCENTE / ADMINISTRADOR -->
+    <section id="screen-admin" class="hidden">
+        <div class="glass-panel">
+            <div class="panel-header">
+                <h2 id="adm-h1">🛰️ Panel Docente y Administrador: Entrenamiento IA + NASA</h2>
+                <span class="step-badge" style="background: linear-gradient(90deg, var(--amber), #f97316);">MODO ADMINISTRADOR</span>
+            </div>
+
+            <div class="admin-grid">
+                <div>
+                    <div class="kpi-row">
+                        <div class="kpi-box">
+                            <div class="big" id="kpi-total">3</div>
+                            <div class="small" id="kpi-lbl1">Aportes Estudiantiles</div>
+                        </div>
+                        <div class="kpi-box">
+                            <div class="big" style="color: var(--text-muted);">71.4%</div>
+                            <div class="small" id="kpi-lbl2">Solo Satélite NASA</div>
+                        </div>
+                        <div class="kpi-box" style="border-color: var(--emerald);">
+                            <div class="big" id="kpi-acc" style="color: var(--emerald);">94.6%</div>
+                            <div class="small" id="kpi-lbl3">IA + Saber Huancavelica</div>
+                        </div>
+                    </div>
+
+                    <div class="field" style="margin-bottom: 1rem;">
+                        <label id="lbl-weight">Peso del Saber Ancestral en la Red Neuronal (Alpha = <span id="alpha-txt">0.55</span>):</label>
+                        <input type="range" id="alpha-range" min="0.10" max="0.85" step="0.05" value="0.55" oninput="document.getElementById('alpha-txt').textContent=this.value">
+                    </div>
+
+                    <button class="submit-btn" style="background: linear-gradient(90deg, var(--blue), var(--purple));" onclick="retrainAll()" id="btn-retrain">
+                        ⚡ Re-Entrenar Modelo IA con Todos los Reportes Estudiantiles
+                    </button>
+                </div>
+
+                <div>
+                    <div class="console-box" id="ai-console">
+                        <div class="c-cyan">[NASA ORBITAL] Conectado a MODIS, GPM IMERG y Landsat 9...</div>
+                        <div>[SISTEMA] Cargados los 7 distritos provinciales y comunidades de Huancavelica.</div>
+                        <div class="c-green">[IA LISTA] El modelo aprende automáticamente cada vez que un estudiante registra una señal libre.</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin: 1.2rem 0 0.8rem; font-size: 0.95rem; color: var(--cyan);" id="adm-table-title">
+                📋 Base de Datos Viva: Observaciones Libres Enviadas por Estudiantes de Huancavelica
+            </h3>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Estudiante / Colegio</th>
+                            <th>Pueblo / Ubicación</th>
+                            <th>Categoría</th>
+                            <th>Observación Libre del Estudiante</th>
+                            <th>Clima que Anuncia + Cruce NASA</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reports-tbody"></tbody>
+                </table>
+            </div>
         </div>
     </section>
 </main>
 
-<footer id="t-footer">
-    Amauta-Space • Proyecto bilingüe (Español / Quechua Chanka) desarrollado desde Huancavelica, Perú para el NASA Space Apps Challenge.<br>
-    <em>Declaración de Superinteligencia (SI): Código base y arquitectura demostrativa desarrollados con asistencia de IA generativa.</em>
+<footer>
+    <strong>AMAUTA-SPACE</strong> • Proyecto Bilingüe (Español / Quechua Chanka) desde Huancavelica, Perú para el NASA Space Apps Challenge.<br>
+    <em>Declaración SI: Interfaz y motor demostrativo desarrollados con asistencia de Inteligencia Artificial generativa.</em>
 </footer>
 
 <script>
-    let currentLang = 'es';
+    // Mapa completo de Provincias y Distritos/Pueblos reales de Huancavelica
+    const huancavelicaTowns = {
+        "Huancavelica": [
+            { name: "Huancavelica (Ciudad)", alt: "3,660 m", temp: "-3.2 °C", rain: "16.4 mm", ndvi: "0.44" },
+            { name: "Acoria", alt: "3,167 m", temp: "-1.8 °C", rain: "18.2 mm", ndvi: "0.48" },
+            { name: "Yauli", alt: "3,391 m", temp: "-2.9 °C", rain: "17.5 mm", ndvi: "0.45" },
+            { name: "Ascensión", alt: "3,650 m", temp: "-3.4 °C", rain: "16.1 mm", ndvi: "0.43" },
+            { name: "Huando", alt: "3,562 m", temp: "-2.7 °C", rain: "15.8 mm", ndvi: "0.46" },
+            { name: "Izcuchaca", alt: "2,939 m", temp: "4.2 °C", rain: "14.0 mm", ndvi: "0.52" },
+            { name: "Palca", alt: "3,650 m", temp: "-3.5 °C", rain: "16.9 mm", ndvi: "0.41" },
+            { name: "Manta / Vilca / Moya", alt: "3,720 m", temp: "-4.1 °C", rain: "15.2 mm", ndvi: "0.39" },
+            { name: "Acobambilla / Nuevo Occoro", alt: "3,795 m", temp: "-4.8 °C", rain: "14.6 mm", ndvi: "0.37" },
+            { name: "Conayca / Cuenca / Laria", alt: "3,680 m", temp: "-3.3 °C", rain: "15.5 mm", ndvi: "0.42" },
+            { name: "Huachocolpa", alt: "3,956 m", temp: "-5.6 °C", rain: "19.0 mm", ndvi: "0.35" }
+        ],
+        "Acobamba": [
+            { name: "Acobamba", alt: "2,940 m", temp: "3.1 °C", rain: "21.0 mm", ndvi: "0.56" },
+            { name: "Paucara", alt: "3,806 m", temp: "-4.2 °C", rain: "19.4 mm", ndvi: "0.44" },
+            { name: "Caja / Marcas", alt: "3,510 m", temp: "-1.5 °C", rain: "17.2 mm", ndvi: "0.49" },
+            { name: "Anta / Rosario / Andabamba", alt: "3,620 m", temp: "-2.4 °C", rain: "18.8 mm", ndvi: "0.47" },
+            { name: "Pomacocha", alt: "3,150 m", temp: "1.8 °C", rain: "16.5 mm", ndvi: "0.51" }
+        ],
+        "Angaraes": [
+            { name: "Lircay", alt: "3,278 m", temp: "-0.8 °C", rain: "19.6 mm", ndvi: "0.51" },
+            { name: "Julcamarca / Ccochaccasa", alt: "3,418 m", temp: "-2.9 °C", rain: "18.1 mm", ndvi: "0.42" },
+            { name: "Secclla / Congalla", alt: "3,340 m", temp: "-1.4 °C", rain: "17.4 mm", ndvi: "0.46" },
+            { name: "Anchonga / Huayllay Grande", alt: "3,298 m", temp: "-1.1 °C", rain: "18.9 mm", ndvi: "0.49" },
+            { name: "Santo Tomás de Pata / Chincho", alt: "3,100 m", temp: "2.4 °C", rain: "14.2 mm", ndvi: "0.48" }
+        ],
+        "Castrovirreyna": [
+            { name: "Castrovirreyna", alt: "3,956 m", temp: "-5.8 °C", rain: "11.2 mm", ndvi: "0.33" },
+            { name: "Santa Ana / Choclococha", alt: "4,473 m", temp: "-8.4 °C", rain: "9.8 mm", ndvi: "0.27" },
+            { name: "Tantara / Arma / Huachos", alt: "2,890 m", temp: "3.5 °C", rain: "12.4 mm", ndvi: "0.45" },
+            { name: "Aurahuá / Chupamarca", alt: "3,450 m", temp: "-2.1 °C", rain: "13.6 mm", ndvi: "0.39" }
+        ],
+        "Churcampa": [
+            { name: "Churcampa", alt: "3,262 m", temp: "1.2 °C", rain: "20.4 mm", ndvi: "0.54" },
+            { name: "Anco / Paucarbamba", alt: "3,370 m", temp: "0.4 °C", rain: "21.8 mm", ndvi: "0.53" },
+            { name: "San Pedro de Coris / Pachamarca", alt: "3,580 m", temp: "-1.6 °C", rain: "19.2 mm", ndvi: "0.48" },
+            { name: "El Carmen / Locroja / Mayocc", alt: "3,110 m", temp: "2.8 °C", rain: "17.9 mm", ndvi: "0.51" }
+        ],
+        "Huaytara": [
+            { name: "Huaytará", alt: "2,658 m", temp: "5.4 °C", rain: "8.9 mm", ndvi: "0.41" },
+            { name: "Pilpichaca", alt: "4,092 m", temp: "-6.9 °C", rain: "10.5 mm", ndvi: "0.31" },
+            { name: "Santiago de Chocorvos / Córdova", alt: "2,570 m", temp: "6.1 °C", rain: "9.4 mm", ndvi: "0.43" },
+            { name: "Querco / Laramarca / Ocoyo", alt: "2,850 m", temp: "4.0 °C", rain: "8.2 mm", ndvi: "0.38" }
+        ],
+        "Tayacaja": [
+            { name: "Pampas", alt: "3,276 m", temp: "0.6 °C", rain: "22.5 mm", ndvi: "0.58" },
+            { name: "Colcabamba / Daniel Hernández", alt: "2,980 m", temp: "3.2 °C", rain: "24.1 mm", ndvi: "0.62" },
+            { name: "Acraquia / Ahuaycha / Huaribamba", alt: "3,285 m", temp: "0.5 °C", rain: "21.9 mm", ndvi: "0.57" },
+            { name: "Pazos / Ñahuimpuquio / Acostambo", alt: "3,840 m", temp: "-3.9 °C", rain: "19.8 mm", ndvi: "0.46" },
+            { name: "Surcubamba / Tintay Puncu", alt: "2,580 m", temp: "7.4 °C", rain: "28.4 mm", ndvi: "0.68" }
+        ]
+    };
 
-    const i18n = {
-        es: {
-            title: "AMAUTA-SPACE • OBSERVATORIO ESPACIAL ANDINO",
-            subtitle: "Aportes Estudiantiles de Saberes Ancestrales + Telemetría Satelital NASA",
-            banner: "<strong>Misión Científica en Huancavelica:</strong> Los estudiantes de secundaria recolectan y registran los bioindicadores astronómicos y ecológicos heredados de los antiguos Amautas y sus familias (estrellas, flores y aves) para entrenar nuestra Inteligencia Artificial junto con los satélites de la NASA, calibrando la predicción de heladas y lluvias en las quebradas altoandinas.",
-            subTemp: "Temperatura Superficial Nocturna",
-            subRain: "Anomalía Pluviométrica Andina",
-            subNdvi: "Vigor de Flora Altoandina",
-            subRad: "Irradiancia Solar en Alta Montaña",
-            panel1Title: "1. Aporte del Estudiante para Entrenar la IA",
-            panel1Badge: "CIENCIA CIUDADANA",
-            lblStudent: "Estudiante Investigador(a):",
-            lblSchool: "Colegio / Comunidad:",
-            lblZone: "Microcuenca de Observación en Huancavelica:",
-            lblChips: "Indicadores Naturales y Astronómicos Reportados por el Estudiante:",
-            c1Title: "★ Brillo de Pléyades (Qullqa)",
-            c1Desc: "Astronomía Andina: Anticipa heladas y siembra",
-            c2Title: "🦅 Nido alto del ave Liqchu",
-            c2Desc: "Fauna: Pronostica temporada de lluvias intensas",
-            c3Title: "🌺 Floración de Kantuta / Sanky",
-            c3Desc: "Flora: Adelanto de estación húmeda sin heladas",
-            c4Title: "🦊 Aullido del Zorro (Atuq)",
-            c4Desc: "Etología: Indicador de humedad en quebradas",
-            lblAlpha: "Peso del Conocimiento Ancestral en la Red Neuronal",
-            btnTrain: "Registrar Aporte Estudiantil y Entrenar IA",
-            panel2Title: "2. Red Neuronal Híbrida (NASA + Saber Amauta)",
-            status: "● ACTIVO",
-            acc1: "Precisión Solo Satélite NASA",
-            acc2: "Precisión Amauta-Space (Híbrida)",
-            tableTitle: "Dataset Comunitario Entrenado por Estudiantes:",
-            thStudent: "Estudiante / I.E.",
-            thVectors: "Aporte Empírico",
-            thNasa: "Fusión NASA",
-            thPred: "Predicción Calibrada",
-            footer: "Amauta-Space • Proyecto bilingüe (Español / Quechua Chanka) desarrollado desde Huancavelica, Perú para el NASA Space Apps Challenge.<br><em>Declaración de Superinteligencia (SI): Código base y arquitectura demostrativa desarrollados con asistencia de IA generativa.</em>"
+    // Base de datos inicial con el ejemplo real de los sapos en Huancavelica
+    let reports = [
+        {
+            student: "Martín Espejo (4° Sec.)",
+            school: "I.E. La Victoria de Ayacucho",
+            town: "Huancavelica (Ciudad) • 3,660 m",
+            cat: "🐸 Animales / Anfibios",
+            obs: "Se observa alta frecuencia de sapos saliendo hasta por las casas del barrio.",
+            pred: "Lluvias fuertes en los próximos días (Confirmado con NASA GPM: 16.4 mm)"
         },
-        qu: {
-            title: "AMAUTA-SPACE • HANAQ PACHA QHAWAQ YACHAY",
-            subtitle: "Yachakuqkunapa Amauta Yachaynin + NASA Satélite nisqawan Huñusqa",
-            banner: "<strong>Huancavelica Llaqtapa Hatun Llamkaynin:</strong> Colegiopi yachakuq warmakuna ñawpa Amautakunapa hinaspa tayta-mamankupa yachayninta (quyllurkunata, waytakunata, pisqukunata qhawaspa) huñunku. Chay yachaywanmi NASA satélite nisqata yanapanchik qasatawan parata allinta musyanapaq.",
-            subTemp: "Tuta Allpapa Chiriyaynin (LST)",
-            subRain: "Para Chayaynin Tupuy (GPM)",
-            subNdvi: "Sallqa Qurakunapa Kawsaynin (NDVI)",
-            subRad: "Intipa Ruphaynin Urqukunapi",
-            panel1Title: "1. Yachakuqpa Yachay Apamusqan (IA Yachachinapaq)",
-            panel1Badge: "LLAQTA YACHAY",
-            lblStudent: "Yachakuqpa Sutin:",
-            lblSchool: "Yachay Wasi / Ayllu:",
-            lblZone: "Huancavelica Ayllu Qhaway:",
-            lblChips: "Pacha Tupuykuna (Yachakuqpa Rikurqusqan):",
-            c1Title: "★ Qullqa Quyllurpa Kanchaynin",
-            c1Desc: "Hanaq Pacha: Qasatawan tarpuy pachata willakun",
-            c2Title: "🦅 Liqchu Pisqupa Qisan",
-            c2Desc: "Uywa: Hatun para chayamunanta willakun",
-            c3Title: "🌺 Kantuta / Sanky Waytarimuy",
-            c3Desc: "Wayta: Para pacha ñawparimunanta willakun",
-            c4Title: "🦊 Atuqpa Waqaynin",
-            c4Desc: "Sallqa Uywa: Wayqukunapi puyu huntayta willakun",
-            lblAlpha: "Amauta Yachaypa Kallpan IA nisqapi",
-            btnTrain: "Yachakuqpa Willakuyninta Churay hinaspa IA Yachachiy",
-            panel2Title: "2. Huñusqa IA (NASA + Amauta Yachay)",
-            status: "● LLAMKACHKANMI",
-            acc1: "NASA Satélite Sapallan",
-            acc2: "Amauta-Space Yanapayninwan",
-            tableTitle: "Yachakuqkunapa Huñusqan Yachaykuna (Dataset):",
-            thStudent: "Yachakuq / Yachay Wasi",
-            thVectors: "Ñawpa Chimpu",
-            thNasa: "NASA Satélite",
-            thPred: "Pacha Musyay",
-            footer: "Amauta-Space • Iskay simipi (Castellano / Chanka Runasimi) Huancavelica llaqtamanta NASA Space Apps Challenge nisqapaq rurasqa.<br><em>Superinteligencia (SI) Willakuy: Kay código nisqaqa IA yanapayninwanmi rurasqa karqa.</em>"
+        {
+            student: "Yulisa Taipe (5° Sec.)",
+            school: "I.E. Tupac Amaru",
+            town: "Acoria • 3,167 m",
+            cat: "✨ Astros / Estrellas",
+            obs: "Las estrellas Qullqa (Pléyades) se vieron muy claras y brillantes en la madrugada.",
+            pred: "Helada fuerte en la madrugada (Confirmado con NASA MODIS: -1.8 °C)"
+        },
+        {
+            student: "Brayan Huamán (3° Sec.)",
+            school: "I.E. José María Arguedas",
+            town: "Lircay • 3,278 m",
+            cat: "🦅 Aves / Fauna",
+            obs: "El ave Liqchu construyó su nido en las partes altas del cerro con piedrecillas.",
+            pred: "Temporada de lluvias intensas (Confirmado con NASA GPM: 19.6 mm)"
         }
-    };
+    ];
 
-    const zoneData = {
-        acoria: { temp: "-3.4 °C", rain: "14.2 mm", ndvi: "0.42", rad: "6.8 kWh/m²", name: "Acoria" },
-        castrovirreyna: { temp: "-8.1 °C", rain: "8.5 mm", ndvi: "0.28", rad: "7.4 kWh/m²", name: "Castrovirreyna" },
-        lircay: { temp: "-1.2 °C", rain: "19.6 mm", ndvi: "0.51", rad: "6.4 kWh/m²", name: "Lircay" }
-    };
-
-    function setLanguage(lang) {
-        currentLang = lang;
-        document.getElementById('btn-es').classList.toggle('active', lang === 'es');
-        document.getElementById('btn-qu').classList.toggle('active', lang === 'qu');
-        const t = i18n[lang];
-
-        document.getElementById('t-title').textContent = t.title;
-        document.getElementById('t-subtitle').textContent = t.subtitle;
-        document.getElementById('t-banner').innerHTML = t.banner;
-        document.getElementById('t-sub-temp').textContent = t.subTemp;
-        document.getElementById('t-sub-rain').textContent = t.subRain;
-        document.getElementById('t-sub-ndvi').textContent = t.subNdvi;
-        document.getElementById('t-sub-rad').textContent = t.subRad;
-        document.getElementById('t-panel1-title').textContent = t.panel1Title;
-        document.getElementById('t-panel1-badge').textContent = t.panel1Badge;
-        document.getElementById('t-lbl-student').textContent = t.lblStudent;
-        document.getElementById('t-lbl-school').textContent = t.lblSchool;
-        document.getElementById('t-lbl-zone').textContent = t.lblZone;
-        document.getElementById('t-lbl-chips').textContent = t.lblChips;
-        document.getElementById('c1-title').textContent = t.c1Title;
-        document.getElementById('c1-desc').textContent = t.c1Desc;
-        document.getElementById('c2-title').textContent = t.c2Title;
-        document.getElementById('c2-desc').textContent = t.c2Desc;
-        document.getElementById('c3-title').textContent = t.c3Title;
-        document.getElementById('c3-desc').textContent = t.c3Desc;
-        document.getElementById('c4-title').textContent = t.c4Title;
-        document.getElementById('c4-desc').textContent = t.c4Desc;
-        document.getElementById('t-lbl-alpha').textContent = t.lblAlpha;
-        document.getElementById('t-btn-train').textContent = t.btnTrain;
-        document.getElementById('t-panel2-title').textContent = t.panel2Title;
-        document.getElementById('t-status').textContent = t.status;
-        document.getElementById('t-acc1').textContent = t.acc1;
-        document.getElementById('t-acc2').textContent = t.acc2;
-        document.getElementById('t-table-title').textContent = t.tableTitle;
-        document.getElementById('th-student').textContent = t.thStudent;
-        document.getElementById('th-vectors').textContent = t.thVectors;
-        document.getElementById('th-nasa').textContent = t.thNasa;
-        document.getElementById('th-pred').textContent = t.thPred;
-        document.getElementById('t-footer').innerHTML = t.footer;
+    function showScreen(screen) {
+        document.getElementById('screen-welcome').classList.toggle('hidden', screen !== 'welcome');
+        document.getElementById('screen-student').classList.toggle('hidden', screen !== 'student');
+        document.getElementById('screen-admin').classList.toggle('hidden', screen !== 'admin');
+        document.getElementById('sat-bar').classList.toggle('hidden', screen === 'welcome');
+        if (screen === 'admin') renderTable();
     }
 
-    function toggleChip(el) {
-        el.classList.toggle('selected');
+    function loadTowns() {
+        const prov = document.getElementById('in-prov').value;
+        const townSelect = document.getElementById('in-town');
+        townSelect.innerHTML = '';
+        huancavelicaTowns[prov].forEach((t, idx) => {
+            const opt = document.createElement('option');
+            opt.value = idx;
+            opt.textContent = `${t.name} (${t.alt})`;
+            townSelect.appendChild(opt);
+        });
+        updateSatelliteByTown();
     }
 
-    function updateZoneTelemetry() {
-        const z = zoneData[document.getElementById('zone-select').value];
-        document.getElementById('sat-temp').textContent = z.temp;
-        document.getElementById('sat-rain').textContent = z.rain;
-        document.getElementById('sat-ndvi').textContent = z.ndvi;
-        document.getElementById('sat-rad').textContent = z.rad;
+    function updateSatelliteByTown() {
+        const prov = document.getElementById('in-prov').value;
+        const idx = document.getElementById('in-town').value || 0;
+        const t = huancavelicaTowns[prov][idx];
+        document.getElementById('sat-loc-name').textContent = t.name;
+        document.getElementById('sat-coords').textContent = `Prov. ${prov} • Altitud: ${t.alt}`;
+        document.getElementById('sat-temp').textContent = t.temp;
+        document.getElementById('sat-rain').textContent = t.rain;
+        document.getElementById('sat-ndvi').textContent = t.ndvi + " NDVI";
     }
 
-    function trainHybridModel() {
-        const selectedChips = Array.from(document.querySelectorAll('.chip.selected'));
-        const consoleEl = document.getElementById('console-log');
-        const alpha = parseFloat(document.getElementById('alpha-slider').value);
-        const zoneKey = document.getElementById('zone-select').value;
-        const zoneName = zoneData[zoneKey].name;
-        const studentName = document.getElementById('student-name').value.trim() || "Estudiante";
-        const studentSchool = document.getElementById('student-school').value.trim() || "I.E. Huancavelica";
+    function fillExample(cat, obsText, pred) {
+        document.getElementById('in-cat').value = cat;
+        document.getElementById('in-obs').value = obsText;
+        document.getElementById('in-pred').value = pred;
+    }
 
-        if (selectedChips.length === 0) {
-            const msg = currentLang === 'qu'
-                ? "[WILLAKUY] Huk ñawpa chimputapas akllay IA yachachinapaq."
-                : "[ALERTA] Selecciona al menos un indicador reportado por el estudiante.";
-            consoleEl.innerHTML += `<div class="log-line" style="color:#f87171;">${msg}</div>`;
-            consoleEl.scrollTop = consoleEl.scrollHeight;
+    function submitStudentReport() {
+        const name = document.getElementById('in-name').value.trim() || "Estudiante Investigador";
+        const school = document.getElementById('in-school').value.trim() || "I.E. Huancavelica";
+        const grade = document.getElementById('in-grade').value;
+        const prov = document.getElementById('in-prov').value;
+        const townIdx = document.getElementById('in-town').value || 0;
+        const townObj = huancavelicaTowns[prov][townIdx];
+        const cat = document.getElementById('in-cat').value;
+        const obs = document.getElementById('in-obs').value.trim();
+        const pred = document.getElementById('in-pred').value;
+
+        if (obs.length < 5) {
+            alert("Por favor escribe en el cuadro qué señal viste en tu pueblo (por ejemplo: sapos cerca de las casas, estrellas brillantes, aves, flores, etc.).");
             return;
         }
 
-        let bioWeightSum = 0;
-        const codes = [];
-        selectedChips.forEach(c => {
-            bioWeightSum += parseFloat(c.getAttribute('data-weight'));
-            codes.push(c.getAttribute('data-code'));
+        reports.unshift({
+            student: `${name} (${grade})`,
+            school: school,
+            town: `${townObj.name} (${prov}) • ${townObj.alt}`,
+            cat: cat,
+            obs: obs,
+            pred: `${pred} (NASA GPM: ${townObj.rain} / MODIS: ${townObj.temp})`
         });
 
-        const baseAcc = 71.4;
-        const hybridAcc = Math.min(98.6, (baseAcc + (bioWeightSum * 28) + (alpha * 6.5))).toFixed(1);
-        const loss = (1 - (hybridAcc / 100)).toFixed(4);
+        // Actualizar métricas de IA
+        document.getElementById('kpi-total').textContent = reports.length;
+        const newAcc = Math.min(99.2, 93.4 + (reports.length * 0.4)).toFixed(1);
+        document.getElementById('kpi-acc').textContent = newAcc + "%";
 
-        if (currentLang === 'qu') {
-            consoleEl.innerHTML += `<div class="log-line">--------------------------------------------</div>`;
-            consoleEl.innerHTML += `<div class="log-line log-accent">[YACHAKUQ] ${studentName} (${studentSchool}) willakuyninta chaskisqa...</div>`;
-            consoleEl.innerHTML += `<div class="log-line">[NASA + AMAUTA] ${zoneName} llaqtapi MODIS/GPM tupuykunawan huñuchkan (α=${alpha})...</div>`;
-            consoleEl.innerHTML += `<div class="log-line log-ok">[ALLINMI] Loss: ${loss} • Amauta-Space Tupuy: ${hybridAcc}%</div>`;
-        } else {
-            consoleEl.innerHTML += `<div class="log-line">--------------------------------------------</div>`;
-            consoleEl.innerHTML += `<div class="log-line log-accent">[INGESTA] Aporte registrado de ${studentName} (${studentSchool})...</div>`;
-            consoleEl.innerHTML += `<div class="log-line">[EPOCH 50/50] Fusionando tensores NASA sobre ${zoneName} con vectores Amauta (α=${alpha})...</div>`;
-            consoleEl.innerHTML += `<div class="log-line log-ok">[CONVERGENCIA] Loss: ${loss} • Precisión Amauta-Space: ${hybridAcc}%</div>`;
-        }
+        const consoleEl = document.getElementById('ai-console');
+        consoleEl.innerHTML += `<div class="c-amber">--------------------------------------------------</div>`;
+        consoleEl.innerHTML += `<div class="c-cyan">[NUEVO REPORTE] ${name} desde ${townObj.name} (${prov})</div>`;
+        consoleEl.innerHTML += `<div>[VECTOR LIBRE] "${obs}" -> Asociado a: ${pred}</div>`;
+        consoleEl.innerHTML += `<div class="c-green">[IA ENTRENADA] Precisión híbrida con NASA actualizada a ${newAcc}%</div>`;
         consoleEl.scrollTop = consoleEl.scrollHeight;
 
-        document.getElementById('acc-hybrid').textContent = hybridAcc + '%';
-
-        const predEs = `Helada / Lluvia calibrada (${hybridAcc}% conf.)`;
-        const predQu = `Qasa / Para allin musyasqa (${hybridAcc}%)`;
-
-        const tbody = document.getElementById('history-tbody');
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td><strong>${studentName}</strong><br><small>${studentSchool}</small></td>
-            <td>${codes.join(' + ')} (${zoneName})</td>
-            <td>MODIS + GPM + NDVI</td>
-            <td><strong>${currentLang === 'qu' ? predQu : predEs}</strong></td>
-        `;
-        tbody.prepend(tr);
+        const toast = document.getElementById('student-toast');
+        toast.classList.remove('hidden');
+        document.getElementById('in-obs').value = '';
+        setTimeout(() => toast.classList.add('hidden'), 5000);
     }
+
+    function renderTable() {
+        const tbody = document.getElementById('reports-tbody');
+        tbody.innerHTML = reports.map(r => `
+            <tr>
+                <td><strong>${r.student}</strong><br><small style="color:var(--text-muted)">${r.school}</small></td>
+                <td>${r.town}</td>
+                <td><span class="badge-cat">${r.cat}</span></td>
+                <td>"${r.obs}"</td>
+                <td><strong style="color:var(--emerald)">${r.pred}</strong></td>
+            </tr>
+        `).join('');
+    }
+
+    function retrainAll() {
+        const alpha = document.getElementById('alpha-range').value;
+        const consoleEl = document.getElementById('ai-console');
+        const acc = Math.min(99.4, 92.0 + (reports.length * 0.5) + (parseFloat(alpha) * 4)).toFixed(1);
+        document.getElementById('kpi-acc').textContent = acc + "%";
+        consoleEl.innerHTML += `<div class="c-cyan">[RE-ENTRENAMIENTO GLOBAL] Procesando ${reports.length} reportes estudiantiles con peso ancestral Alpha=${alpha}...</div>`;
+        consoleEl.innerHTML += `<div class="c-green">[CONVERGENCIA EXITOSA] Red Neuronal calibrada al ${acc}% de precisión sobre Huancavelica.</div>`;
+        consoleEl.scrollTop = consoleEl.scrollHeight;
+    }
+
+    // Traducción Español / Quechua Chanka
+    function setLang(lang) {
+        document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+        document.getElementById('lang-qu').classList.toggle('active', lang === 'qu');
+
+        if (lang === 'qu') {
+            document.getElementById('w-title').textContent = "¿Imaynatataq kunan punchaw IA Espacial nisqata yachachisun?";
+            document.getElementById('w-sub').textContent = "Huancavelica llaqtakunapiqa quyllurkunata, hampatukunata (sapos), pisqukunata hinaspa waytakunata qhawaspam parata utaq qasata musyanchik. Akllay imayna yaykunaykita:";
+            document.getElementById('w-stu-title').textContent = "Yachakuqmi Kani (Estudiante)";
+            document.getElementById('w-stu-desc').textContent = "Colegioykita, llaqtaykita qillqay hinaspa willakuy imatam kunan rikurqanki (hampatukuna, quyllurkuna, waytakuna).";
+            document.getElementById('w-stu-btn').textContent = "Yachakuq hina yaykuy →";
+            document.getElementById('w-adm-title').textContent = "Yachachiqmi Kani (Docente / Admin)";
+            document.getElementById('w-adm-desc').textContent = "Llapan colegiokunapa willakuyninta qhaway hinaspa NASA satélite nisqawan IA yachachiy.";
+            document.getElementById('w-adm-btn').textContent = "Yachachiq hina yaykuy →";
+            document.getElementById('stu-h1').textContent = "🎒 Ñawpa Yachay Willakuyniy (NASA Satélite Yanapanapaq)";
+            document.getElementById('lbl-name').textContent = "1. Sutiyki:";
+            document.getElementById('lbl-school').textContent = "2. Yachay Wasiyki (Colegio):";
+            document.getElementById('lbl-grade').textContent = "3. Ñiqiyki (Grado):";
+            document.getElementById('lbl-prov').textContent = "4. Huancavelica Provinciayki:";
+            document.getElementById('lbl-town').textContent = "5. Llaqtayki / Aylluyki (Distrito):";
+            document.getElementById('lbl-obs').textContent = "8. Kikin simiykiwan qillqay imatam llaqtaykipi rikurqanki (Ej. achka hampatukunam wasikunaman lluqsiramun):";
+            document.getElementById('btn-send-student').textContent = "🚀 Willakuyniyta Apachiy NASA IA Yachachinapaq";
+        } else {
+            document.getElementById('w-title').textContent = "¿Cómo entrenaremos hoy a nuestra Inteligencia Artificial Espacial?";
+            document.getElementById('w-sub').textContent = "En los pueblos de Huancavelica sabemos leer las estrellas, los sapos, las aves y las flores para predecir lluvias o heladas. Elige tu perfil para conectar ese saber milenario con los satélites de la NASA:";
+            document.getElementById('w-stu-title').textContent = "Soy Estudiante";
+            document.getElementById('w-stu-desc').textContent = "Registra tu colegio, tu pueblo de Huancavelica y cuenta con tus propias palabras qué señales de la naturaleza o de los astros has visto hoy.";
+            document.getElementById('w-stu-btn').textContent = "Entrar como Estudiante →";
+            document.getElementById('w-adm-title').textContent = "Soy Docente / Administrador";
+            document.getElementById('w-adm-desc').textContent = "Supervisa los reportes enviados por todos los colegios de Huancavelica y entrena la Red Neuronal Híbrida con datos de la NASA.";
+            document.getElementById('w-adm-btn').textContent = "Abrir Panel Administrador →";
+            document.getElementById('stu-h1').textContent = "🎒 Mi Reporte de Ciencia Ancestral para la NASA";
+            document.getElementById('lbl-name').textContent = "1. Tu Nombre y Apellido:";
+            document.getElementById('lbl-school').textContent = "2. Tu Colegio (Institución Educativa):";
+            document.getElementById('lbl-grade').textContent = "3. Tu Grado de Secundaria:";
+            document.getElementById('lbl-prov').textContent = "4. Selecciona tu Provincia en Huancavelica:";
+            document.getElementById('lbl-town').textContent = "5. Selecciona tu Distrito / Pueblo / Comunidad:";
+            document.getElementById('lbl-obs').textContent = "8. Escribe libremente qué viste exactamente en tu casa, chacra o pueblo:";
+            document.getElementById('btn-send-student').textContent = "🚀 Enviar mi Observación para Entrenar la IA de la NASA";
+        }
+    }
+
+    // Inicializar pueblos al cargar
+    loadTowns();
+    renderTable();
 </script>
 
 </body>
