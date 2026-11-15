@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="ai-disclosure" content="Desarrollado con asistencia de Superinteligencia (SI) para generación de código y modelado - NASA Space Apps Challenge.">
-    <title>AMAUTA-SPACE 7.1 | Observatorio Científico Andino & Satélites NASA</title>
+    <title>AMAUTA-SPACE 7.3 | Observatorio Científico Andino & Satélites NASA</title>
 
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -143,7 +143,15 @@
         th, td { text-align: left; padding: 0.6rem; border-bottom: 1px solid var(--border); }
         th { color: var(--cyan); font-size: 0.72rem; text-transform: uppercase; }
         .badge-ok { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid var(--emerald); padding: 0.18rem 0.5rem; border-radius: 99px; font-weight: 800; font-size: 0.7rem; }
-        .badge-fail { background: rgba(225, 29, 72, 0.2); color: #fda4af; border: 1px solid var(--rose); padding: 0.18rem 0.5rem; border-radius: 99px; font-weight: 800; font-size: 0.7rem; }
+        .badge-pending { background: rgba(245, 158, 11, 0.2); color: #fcd34d; border: 1px solid var(--amber); padding: 0.18rem 0.5rem; border-radius: 99px; font-weight: 800; font-size: 0.7rem; }
+        .pdf-btn { background: #3b82f6; color: #fff; border: none; padding: 0.25rem 0.6rem; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer; }
+
+        /* Estilo de Impresión para Reporte PDF */
+        @media print {
+            body * { visibility: hidden; }
+            #pdf-modal, #pdf-modal * { visibility: visible; }
+            #pdf-modal { position: absolute; left: 0; top: 0; width: 100%; background: #fff !important; color: #000 !important; }
+        }
 
         footer { position: relative; z-index: 5; text-align: center; padding: 0.9rem; font-size: 0.74rem; color: var(--text-muted); border-top: 1px solid var(--border); background: rgba(3, 7, 18, 0.95); }
     </style>
@@ -157,7 +165,7 @@
     <div class="brand" onclick="showScreen('welcome')">
         <div class="brand-logo">☀️</div>
         <div>
-            <h1>AMAUTA-SPACE 7.1 • HUANCAVELICA</h1>
+            <h1>AMAUTA-SPACE 7.3 • HUANCAVELICA</h1>
             <span>Observatorio Científico & Verificación Espacial</span>
         </div>
     </div>
@@ -174,13 +182,13 @@
         <div class="welcome-badge">🚀 NASA SPACE APPS CHALLENGE • HUANCAVELICA, PERÚ (3,660 m)</div>
         <h2 class="welcome-title">El Saber Ancestral Validado con Telemetría Real de la NASA</h2>
         <p class="welcome-sub">
-            Plataforma profesional de análisis geoespacial y ciencia ciudadana. Conecta la observación andina de fauna, clima y astros con los datos orbitales de NASA POWER.
+            Plataforma profesional de análisis geoespacial, reporte PDF científico y validación de bioindicadores andinos con datos de NASA POWER.
         </p>
         <div class="role-cards">
             <div class="role-card" onclick="showScreen('student')">
                 <div style="font-size:2.5rem;">🧒🏽🦙🛰️</div>
                 <h3 style="margin:0.5rem 0; color:#fff;">Laboratorio Estudiante y Comunidad</h3>
-                <p style="font-size:0.85rem; color:var(--text-muted);">Realiza reportes libres de bioindicadores o fauna, interactúa con el chat científico y explora el mapa de telemetría.</p>
+                <p style="font-size:0.85rem; color:var(--text-muted);">Realiza reportes libres de fauna o clima, interactúa con el chat inteligente depurado y genera reportes PDF oficiales.</p>
                 <span class="role-enter-btn">Entrar al Laboratorio →</span>
             </div>
             <div class="role-card" onclick="showScreen('admin')">
@@ -218,12 +226,12 @@
 
     <!-- Laboratorio Principal -->
     <section id="screen-student" class="hidden">
-        <!-- Identificación -->
+        <!-- Identificación (Vacíos por defecto) -->
         <div class="glass-panel" style="border-color: var(--amber); padding: 0.9rem 1.1rem; margin-bottom: 0.9rem;">
             <div class="grid-3" style="margin-bottom:0; align-items:end;">
                 <div class="field" style="margin-bottom:0;">
                     <label>👋 1. Tu Nombre:</label>
-                    <input type="text" id="in-name" placeholder="Ej. Jhony Quispe">
+                    <input type="text" id="in-name" placeholder="Escribe tu nombre...">
                 </div>
                 <div class="field" style="margin-bottom:0;">
                     <label>📍 2. Provincia y Pueblo en Huancavelica:</label>
@@ -245,22 +253,22 @@
             <button class="lab-tab active" id="tab-btn-1" onclick="switchLabTab(1)">🎙️ 1. Reporte Libre & Chat IA</button>
             <button class="lab-tab" id="tab-btn-2" onclick="switchLabTab(2)">🌌 2. Cielo Real y Qullqa</button>
             <button class="lab-tab" id="tab-btn-3" onclick="switchLabTab(3)">🛰️ 3. Mapa Satelital NASA</button>
-            <button class="lab-tab" id="tab-btn-4" onclick="switchLabTab(4)">⚖️ 4. Verificador 72h</button>
+            <button class="lab-tab" id="tab-btn-4" onclick="switchLabTab(4)">⚖️ 4. Verificador & Reporte PDF</button>
             <button class="lab-tab" id="tab-btn-5" onclick="switchLabTab(5)">👴🏽 5. Registro Oral & Alerta</button>
         </div>
 
-        <!-- MÓDULO 1: REPORTE LIBRE + CHAT -->
+        <!-- MÓDULO 1: REPORTE LIBRE + CHAT INTELIGENTE (FILTRANDO MITOS) -->
         <div id="lab-mod-1" class="workspace-2col">
             <div class="glass-panel">
                 <div class="panel-header">
-                    <h2>🎙️ Registrar Observación (Pumas, Clima, Fauna, Helada)</h2>
+                    <h2>🎙️ Registrar Observación (Serpientes, Clima, Fauna, Helada)</h2>
                     <span class="step-badge">NLP INTELIGENTE</span>
                 </div>
 
                 <div class="grid-2">
                     <div class="field">
                         <label>Colegio / Institución:</label>
-                        <input type="text" id="in-school" value="I.E. La Victoria de Ayacucho">
+                        <input type="text" id="in-school" placeholder="Ej. I.E. San Juan...">
                     </div>
                     <div class="field">
                         <label>Grado Escolar:</label>
@@ -275,12 +283,12 @@
                 </div>
 
                 <div style="margin-bottom:0.35rem; font-size:0.75rem; color:var(--amber); font-weight:700;">
-                    ✨ Ejemplos rápidos:
+                    ✨ Ejemplos rápidos (Haz clic para probar):
                 </div>
                 <div class="quick-examples">
-                    <span class="example-tag" onclick="fillFreeExample('veo un puma bajando cerca de mi colegio en la quebrada', 'hay escasez de alimento en la puna alta por sequia')">🦁 Puma bajando a la quebrada</span>
-                    <span class="example-tag" onclick="fillFreeExample('estan saliendo artos sapos hasta por las casas y la asequia', 'va a llover fuerte en 48 horas')">🐸 Sapos por las casas</span>
-                    <span class="example-tag" onclick="fillFreeExample('las estrellas qullqa brillaron super clarito anoche', 'helada fuerte en la madrugada')">✨ Pléyades nítidas (Helada)</span>
+                    <span class="example-tag" onclick="fillFreeExample('encontré una serpiente andina cruzando el camino hacia la chacra', 'aumento de temperatura en la quebrada estimula ectotermos')">🐍 Serpiente andina en el camino</span>
+                    <span class="example-tag" onclick="fillFreeExample('vi un pegaso volando sobre los cerros', 'es una criatura mitologica fantástica')">🦄 Pegaso volando (Prueba de filtro de mitos)</span>
+                    <span class="example-tag" onclick="fillFreeExample('veo un cielo muy despejado de noche sin nubes', 'caera helada fuerte en la madrugada')">✨ Cielo muy despejado (Helada)</span>
                 </div>
 
                 <div class="field">
@@ -300,19 +308,19 @@
                 </div>
 
                 <button class="submit-btn" onclick="submitAndAnalyzeWithAI()">
-                    🧠 Analizar con Amauta-IA y Cruzar con NASA POWER
+                    🧠 Analizar con Amauta-IA y Generar Reporte PDF
                 </button>
             </div>
 
-            <!-- Chat Científico -->
+            <!-- Chat Científico (Detecta mitos y corrige) -->
             <div class="glass-panel chat-container">
                 <div class="panel-header" style="margin-bottom:0.45rem; padding-bottom:0.45rem;">
-                    <h2>🤖 Chat Científico & Empírico</h2>
-                    <span class="step-badge" style="background:var(--emerald); color:#fff;">TEXTO PROFESIONAL</span>
+                    <h2>🤖 Chat Científico & Filtro de Realidad</h2>
+                    <span class="step-badge" style="background:var(--emerald); color:#fff;">VALIDADO</span>
                 </div>
                 <div class="chat-messages" id="chat-box">
                     <div class="bubble bubble-ai">
-                        Bienvenido al chat científico. Al enviar tu reporte a la izquierda, la IA cruzará el comportamiento observado con los registros de temperatura y precipitación de la NASA para darte una explicación clara y fundamentada.
+                        Bienvenido. Si ingresas criaturas mitológicas (como pegasos o dragones) o animales no nativos, la IA te guiará con rigor científico hacia la fauna real de los Andes. Al enviar tu reporte, se generará una tarjeta para exportar a PDF con base científica y precauciones.
                     </div>
                 </div>
                 <div class="input-with-mic">
@@ -356,21 +364,24 @@
             <div id="nasa-map"></div>
         </div>
 
-        <!-- MÓDULO 4: VERIFICADOR CIENTÍFICO 24-72H -->
+        <!-- MÓDULO 4: VERIFICADOR CIENTÍFICO + BOTÓN DE REPORTE PDF -->
         <div id="lab-mod-4" class="glass-panel hidden">
             <div class="panel-header">
-                <h2>⚖️ Verificador Científico (Auditoría de Reportes frente a NASA POWER)</h2>
-                <span class="step-badge">RIGOR CIENTÍFICO</span>
+                <h2>⚖️ Verificador Científico & Generador de Reporte PDF Oficial</h2>
+                <span class="step-badge">REPORTE CIENTÍFICO</span>
             </div>
+            <p style="font-size:0.83rem; color:var(--text-muted); margin-bottom:0.8rem;">
+                Aquí se registran los reportes estudiantiles. Haz clic en <strong>"📄 Ver Reporte PDF"</strong> en cualquier fila para abrir el documento oficial con base científica, recomendaciones y precauciones listas para imprimir.
+            </p>
             <div style="overflow-x:auto;">
                 <table>
                     <thead>
                         <tr>
-                            <th>Fecha / Lugar</th>
+                            <th>Estudiante / Pueblo</th>
                             <th>Señal Reportada</th>
-                            <th>Predicción</th>
-                            <th>Medición Real NASA (T+48h)</th>
-                            <th>Veredicto</th>
+                            <th>Predicción Empírica</th>
+                            <th>Medición NASA POWER</th>
+                            <th>Acción / Reporte PDF</th>
                         </tr>
                     </thead>
                     <tbody id="verifier-tbody"></tbody>
@@ -378,7 +389,7 @@
             </div>
         </div>
 
-        <!-- MÓDULO 5: REGISTRO ORAL Y ALERTA BILINGÜE COHERENTE -->
+        <!-- MÓDULO 5: REGISTRO ORAL Y ALERTA AUTOMÁTICA -->
         <div id="lab-mod-5" class="workspace-2col hidden">
             <div class="glass-panel">
                 <div class="panel-header">
@@ -387,28 +398,24 @@
                 </div>
                 <div class="field">
                     <label>Nombre del Sabio:</label>
-                    <input type="text" id="elder-name" value="Don Eustaquio Taipe (78 años)">
+                    <input type="text" id="elder-name" placeholder="Ej. Don Eustaquio Taipe (78 años)">
                 </div>
                 <div class="field">
-                    <label>Relato:</label>
-                    <input type="text" id="elder-summary" value="Cuando el puma baja a los valles y las estrellas Qullqa brillan netas, habrá cambio brusco de clima.">
+                    <label>Relato Tradicional:</label>
+                    <input type="text" id="elder-summary" placeholder="Escribe lo que enseña el abuelo...">
                 </div>
                 <button class="submit-btn" style="background:var(--amber); color:#050814;" onclick="saveSimulatedElderAudio()">💾 Guardar Registro Oral</button>
                 <div id="elder-archive-list" style="margin-top:0.8rem;"></div>
             </div>
             <div class="glass-panel">
                 <div class="panel-header">
-                    <h2>❄️📲 Alerta Bilingüe de Helada (Español / Quechua)</h2>
+                    <h2>❄️📲 Alerta Bilingüe Automática (Impulsada por NASA)</h2>
                     <span class="step-badge" style="background:var(--rose);">WHATSAPP & RADIO</span>
                 </div>
-                <div class="field">
-                    <label>Temperatura Mínima NASA POWER (°C):</label>
-                    <input type="range" id="frost-slider" min="-9" max="6" step="0.5" value="-2.8" oninput="updateFrostAlertBox(this.value)">
-                </div>
                 <div class="sat-card" id="frost-status-banner" style="border-left:4px solid var(--rose); margin-bottom:0.75rem;">
-                    <strong style="color:var(--rose);">🚨 ALERTA DE HELADA (-2.8 °C):</strong> Riesgo en papa y alpacas.
+                    <strong style="color:var(--rose);">CARGANDO ESTADO NASA...</strong>
                 </div>
-                <textarea id="frost-msg-box" rows="7" readonly style="width:100%; font-family:var(--mono); font-size:0.75rem; background:#080c1a; color:#fde68a; padding:0.6rem; border-radius:8px; line-height:1.4;"></textarea>
+                <textarea id="frost-msg-box" rows="8" readonly style="width:100%; font-family:var(--mono); font-size:0.75rem; background:#080c1a; color:#fde68a; padding:0.6rem; border-radius:8px; line-height:1.4;"></textarea>
                 <button class="submit-btn" style="background:#25D366; color:#050814; margin-top:0.6rem;" onclick="shareFrostWhatsApp()">📲 Enviar Alerta por WhatsApp</button>
             </div>
         </div>
@@ -428,22 +435,22 @@
                 </div>
                 <div class="sat-card" style="border-left:4px solid var(--cyan);">
                     <div class="sat-top"><span>2. DATO NASA REAL</span></div>
-                    <p style="font-size:0.82rem; margin-top:0.3rem;">Se cruza con NASA POWER y MODIS en Huancavelica (-12.78°, -74.97°) para validar la temperatura y humedad.</p>
+                    <p style="font-size:0.82rem; margin-top:0.3rem;">Se cruza con NASA POWER y MODIS en Huancavelica para validar la temperatura y humedad.</p>
                 </div>
                 <div class="sat-card" style="border-left:4px solid var(--emerald);">
                     <div class="sat-top"><span>3. IMPACTO REAL</span></div>
-                    <p style="font-size:0.82rem; margin-top:0.3rem;">Genera alertas de helada en Quechua Chanka y Español para proteger cultivos y alpacas.</p>
+                    <p style="font-size:0.82rem; margin-top:0.3rem;">Genera alertas de helada en Quechua Chanka y Español y reportes PDF científicos listos para imprimir.</p>
                 </div>
             </div>
         </div>
         <div class="glass-panel">
             <div class="panel-header">
-                <h2>🛰️ Registro de Reportes Estudiantiles</h2>
+                <h2>🛰️ Registro General de Reportes de Estudiantes</h2>
                 <span class="step-badge">BASE VIVA</span>
             </div>
             <table style="width:100%;">
                 <thead>
-                    <tr><th>Estudiante</th><th>Pueblo</th><th>Observación</th><th>Pronóstico</th><th>Explicación NASA</th></tr>
+                    <tr><th>Estudiante</th><th>Pueblo</th><th>Observación</th><th>Pronóstico</th><th>Análisis NASA</th></tr>
                 </thead>
                 <tbody id="admin-tbody"></tbody>
             </table>
@@ -451,8 +458,30 @@
     </section>
 </main>
 
+<!-- MODAL DE REPORTE CIENTÍFICO PDF OFICIAL -->
+<div id="pdf-modal" class="hidden" style="position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:100; display:flex; justify-content:center; align-items:center; padding:1rem;">
+    <div style="background:#fff; color:#000; width:100%; max-width:700px; border-radius:12px; padding:2rem; box-shadow:0 20px 40px rgba(0,0,0,0.5); max-height:90vh; overflow-y:auto;">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #030712; padding-bottom:0.8rem; margin-bottom:1rem;">
+            <div>
+                <h3 style="color:#030712; font-size:1.2rem; font-weight:900;">AMAUTA-SPACE • REPORTE CIENTÍFICO OFICIAL</h3>
+                <p style="font-size:0.75rem; color:#64748b;">NASA Space Apps Challenge • Validación de Ciencia Ciudadana Andina</p>
+            </div>
+            <div style="text-align:right; font-size:0.75rem; font-family:monospace; color:#334155;">REF: NASA-POWER-SEC</div>
+        </div>
+
+        <div id="pdf-content-body" style="font-size:0.88rem; line-height:1.6; color:#1e293b;">
+            <!-- Contenido dinámico inyectado por JS -->
+        </div>
+
+        <div style="margin-top:2rem; display:flex; justify-content:space-between; border-top:1px solid #cbd5e1; padding-top:1rem;">
+            <button onclick="window.print()" style="background:#030712; color:#fff; border:none; padding:0.6rem 1.2rem; border-radius:8px; font-weight:800; cursor:pointer;">🖨️ Imprimir / Guardar como PDF</button>
+            <button onclick="closePdfModal()" style="background:#e11d48; color:#fff; border:none; padding:0.6rem 1.2rem; border-radius:8px; font-weight:800; cursor:pointer;">✖ Cerrar</button>
+        </div>
+    </div>
+</div>
+
 <footer>
-    <strong>AMAUTA-SPACE 7.1</strong> • Mapas Leaflet Libres, NLP Dinámico y Satélites NASA desde Huancavelica, Perú.
+    <strong>AMAUTA-SPACE 7.3</strong> • Reportes PDF Científicos, Filtro Anti-Mitos y Satélites NASA desde Huancavelica, Perú.
 </footer>
 
 <script>
@@ -470,17 +499,22 @@
     };
 
     let verificationCases = [
-        { dateLoc: "Hace 48h • Huancavelica", signal: "Alta frecuencia de sapos (Hanp'atu)", pred: "Lluvia fuerte en 48h", nasaMeasured: "NASA POWER: 14.6 mm", ok: true, verdict: "✅ ACIERTO VALIDADO" },
-        { dateLoc: "Hace 24h • Acoria", signal: "Estrellas Qullqa muy nítidas", pred: "Helada nocturna", nasaMeasured: "NASA MODIS: -1.8 °C", ok: true, verdict: "✅ ACIERTO VALIDADO" }
+        {
+            id: 1,
+            student: "Jhony Quispe",
+            school: "I.E. La Victoria",
+            dateLoc: "Huancavelica (Ciudad)",
+            signal: "Alta frecuencia de sapos (Hanp'atu)",
+            pred: "Lluvia fuerte en 48h",
+            nasaMeasured: "NASA POWER: 14.6 mm/día",
+            verdict: "✅ ACIERTO VALIDADO",
+            science: "La piel permeable de los anfibios detecta la caída de presión barométrica y alta humedad relativa (RH2M: 78.4%) antes de una tormenta convectiva.",
+            precautions: "Evitar almacenar agua estancada innecesaria y proteger cultivos sensibles al exceso hídrico."
+        }
     ];
 
-    let communityReports = [
-        { student: "Jhony Quispe (4° Sec.)", school: "I.E. La Victoria", town: "Huancavelica • -12.78°, -74.97°", rawObs: "Veo un puma bajando cerca de mi colegio", pred: "Puna sin alimento", aiSummary: "Efecto climático: Las sequías o heladas severas en la puna reducen presas silvestres, obligando a pumas a descender hacia valles y comunidades." }
-    ];
-
-    let elderArchive = [
-        { elder: "Don Eustaquio Taipe (78 años)", comm: "Acoria, Huancavelica", summary: "“Cuando el puma baja a las chacras y las estrellas brillan fuerte, el clima cambia duro.”", date: "Hoy" }
-    ];
+    let communityReports = [];
+    let elderArchive = [];
 
     function initSelectors() {
         const provSel = document.getElementById('in-prov');
@@ -523,8 +557,7 @@
         document.getElementById('sat-rain').textContent = `${t.rain} mm/día`;
         document.getElementById('sat-rh').textContent = `${t.rh} %`;
 
-        document.getElementById('frost-slider').value = t.temp;
-        updateFrostAlertBox(t.temp);
+        updateAutomaticAlertBox(t);
         calculateRealSky(t.lat, t.lon);
         if (leafletMap) {
             leafletMap.setView([t.lat, t.lon], 10);
@@ -552,67 +585,85 @@
         document.getElementById('astro-moon-advice').textContent = illum > 50 ? "Luna Llena / Creciente" : "Luna Nueva / Menguante";
     }
 
-    // Alerta bilingüe completamente coherente con NASA POWER y reportes de estudiantes
-    function updateFrostAlertBox(tempVal) {
-        const temp = parseFloat(tempVal);
-        const t = getCurrentTownObj();
+    function updateAutomaticAlertBox(t) {
         const banner = document.getElementById('frost-status-banner');
         const box = document.getElementById('frost-msg-box');
 
-        if (temp < 0) {
+        if (t.temp < 0) {
             banner.style.borderLeftColor = "var(--rose)";
-            banner.innerHTML = `🚨 <strong style="color:var(--rose);">ALERTA DE HELADA SEVERA (${temp} °C):</strong> Confirmado por satélites NASA POWER y reportes escolares en ${t.name}.`;
+            banner.innerHTML = `🚨 <strong style="color:var(--rose);">ALERTA ROJA DE HELADA (${t.temp} °C):</strong> Riesgo confirmado por satélites NASA en ${t.name}.`;
             box.value = `[ALERTA COMUNAL AMAUTA-SPACE • NASA]\n\n` +
                 `🇪🇸 ESPAÑOL:\n` +
-                `Atención comunidad de ${t.name} (${t.alt}). La telemetría de la NASA registra una temperatura mínima de ${temp} °C y humedad de ${t.rh}%. ¡Se pronostica helada fuerte esta madrugada!\n` +
-                `👉 Recomendaciones prácticas:\n` +
-                `1. Riega tus chacras de papa nativa al atardecer para proteger los tubérculos.\n` +
-                `2. Guarda las crías de alpaca (tuis) en cobertizos antes de las 5:00 PM.\n\n` +
+                `Comunidad de ${t.name} (${t.alt}). Temperatura mínima NASA: ${t.temp} °C. ¡Peligro de helada!\n` +
+                `👉 Recomendaciones:\n` +
+                `1. Abrígate bien y no salgas muy temprano al pastoreo con los ganados.\n` +
+                `2. Protege tus cultivos de papa nativa regando al atardecer o con humo térmico.\n\n` +
                 `🏔️ RUNASIMI (QUECHUA CHANKA):\n` +
-                `¡Uyariychik ${t.name} llaqtayku! NASA satéliteman hina, yachakuqkunaman hinam kunan tutam sinchi qasa (${temp} °C) chayamunqa.\n` +
+                `¡Uyariychik ${t.name} llaqtayku! NASA satéliteman hina sinchi qasam kanqa (${t.temp} °C).\n` +
                 `👉 Ama qunqaspa:\n` +
-                `1. Papa chakrakiykunata tardita qarpaychik.\n` +
-                `2. Paquchata uña uywakunatapas wasi uqullaman wisqaychik.`;
+                `1. Allinta churakuychik, paqarin mastaraq ama michikuq lluqsiychikchu.\n` +
+                `2. Papa chakrakiykunata tardita qarpaychik.`;
         } else {
             banner.style.borderLeftColor = "var(--emerald)";
-            banner.innerHTML = `✅ <strong style="color:var(--emerald);">CLIMA ESTABLE (+${temp} °C):</strong> Datos NASA y reportes escolares sin riesgo de helada en ${t.name}.`;
+            banner.innerHTML = `✅ <strong style="color:var(--emerald);">CLIMA ESTABLE (+${t.temp} °C):</strong> Sin riesgo de helada severa hoy en ${t.name}.`;
             box.value = `[BOLETÍN COMUNAL AMAUTA-SPACE • NASA]\n\n` +
                 `🇪🇸 ESPAÑOL:\n` +
-                `Comunidad de ${t.name} (${t.alt}). Datos de satélites NASA POWER: Temperatura mínima de +${temp} °C y lluvia de ${t.rain} mm/día. Clima favorable para labores agrícolas y pastoreo.\n\n` +
+                `Comunidad de ${t.name} (${t.alt}). Temperatura mínima: +${t.temp} °C, Lluvia: ${t.rain} mm. Clima estable para labores agrícolas.\n\n` +
                 `🏔️ RUNASIMI (QUECHUA CHANKA):\n` +
-                `Allin pacham kanqa ${t.name} llaqtapi (+${temp} °C). Mana qasachu kanqa, tarpunapaq hinaspa uywakunata michinapaqqa allinmi.`;
+                `Allin pacham kanqa ${t.name} llaqtapi (+${t.temp} °C). Mana qasachu kanqa, tarpunapaq hinaspa uywakunata michinapaqqa allinmi.`;
         }
     }
 
     function shareFrostWhatsApp() { window.open(`https://wa.me/?text=${encodeURIComponent(document.getElementById('frost-msg-box').value)}`, '_blank'); }
 
+    // Motor NLP con Filtro estricto anti-mitos / criaturas imposibles
     function analyzeDynamicObservation(obsText, predText, t) {
         const low = (obsText + " " + predText).toLowerCase();
-        let topic = "Observación Ecológica y Climática Local";
-        let science = `En ${t.name} (${t.alt}), los satélites de la NASA registran ${t.temp} °C y ${t.rain} mm de lluvia, validando la reacción observada en tu comunidad.`;
+        let topic = "Observación Ecológica y Local";
+        let science = `En ${t.name} (${t.alt}), los satélites de la NASA registran ${t.temp} °C y ${t.rain} mm de lluvia.`;
+        let precautions = "Mantener atención a los cambios locales del clima y abrigarse adecuadamente según la altitud.";
 
-        if (low.includes("puma") || low.includes("zorro") || low.includes("animal")) {
-            topic = "Comportamiento de la Fauna Silvestre";
-            science = `Cuando los animales bajan a las chacras, los abuelos sabían que arriba en la puna el frío (registrado hoy por la NASA en ${t.temp} °C) o la escasez temporal de alimento los obliga a buscar refugio más abajo. ¡Es una señal viva del clima!`;
-        } else if (low.includes("sapo") || low.includes("hampatu") || low.includes("rana")) {
-            topic = "El Sapo (Bioindicador de Lluvia)";
-            science = `¡Los sapos nunca fallan! Su piel siente la humedad y la presión barométrica antes de que llueva. La NASA confirma que la humedad está subiendo en tu zona (${t.rh}%), por eso salieron de sus refugios.`;
-        } else if (low.includes("qullqa") || low.includes("estrella") || low.includes("helada")) {
-            topic = "Brillo de las Estrellas (Pléyades)";
-            science = `Si las estrellas brillaban tan claritas anoche es porque no había nubes. Sin nubes que abriguen la tierra, el calor se escapa al espacio y cae la helada que mide la NASA.`;
+        if (low.includes("pegaso") || low.includes("unicornio") || low.includes("dragon") || low.includes("dinosaurio") || low.includes("extraterrestre")) {
+            topic = "Registro No Válido / Criatura Mitológica o Ficticia";
+            science = `Aviso pedagógico: Las criaturas mitológicas como pegasos, dragones o unicornios no forman parte de la fauna real ni de los ecosistemas de los Andes de Huancavelica. Te invitamos a registrar observaciones reales de la naturaleza (fauna andina, aves, clima o astros) para alimentar rigurosamente el sistema científico de la NASA.`;
+            precautions = "Ninguna precaución climática aplicable. Se sugiere registrar avistamientos biológicos reales (pumas, zorros, cóndores, aves andinas).";
+        } else if (low.includes("leon") || low.includes("tigre") || low.includes("elefante") || low.includes("hipopotamo")) {
+            topic = "Fauna Exótica / No Nativa de los Andes";
+            science = `Aviso pedagógico: Los leones o tigres no habitan de forma silvestre en los altos Andes peruanos (nuestro gran felino nativo es el puma andino). Es probable que hayas observado un zorro andino, un gato silvestre o confundido huellas.`;
+            precautions = "Mantener distancia prudente ante cualquier carnívoro silvestre andino desconocido.";
+        } else if (low.includes("serpiente") || low.includes("culebra") || low.includes("amaru")) {
+            topic = "Herpetología Andina (Ectotermos y Temperatura)";
+            science = `En los altos Andes, la presencia de reptiles (como culebras andinas) está ligada directamente al incremento estacional de la temperatura superficial y la radiación solar. Al ser animales de sangre fría (ectotermos), aprovechan la insolación para termorregularse en las laderas. La NASA POWER registra ${t.temp}°C.`;
+            precautions = "1. No intentar capturar ni tocar serpientes silvestres.\n2. Caminar con calzado alto y botas al transitar por zonas de pajonal o matorral bajo.\n3. En caso de mordedura, acudir de inmediato al puesto de salud más cercano sin aplicar torniquetes caseros.";
+        } else if (low.includes("piedra") || low.includes("cerro") || low.includes("derrumbe") || low.includes("huayco")) {
+            topic = "Inestabilidad de Laderas y Suelos (Geotecnia)";
+            science = `La caída de piedras es provocada por la saturación de humedad en los poros del suelo arcilloso tras las precipitaciones recientes (NASA POWER: ${t.rain} mm/día) combinada con la erosión por gradiente térmico.`;
+            precautions = "1. Evitar transitar cerca de taludes o acantilados inestuberculosis durante y después de lluvias.\n2. Reportar deslizamientos a las autoridades locales de Defensa Civil.";
+        } else if (low.includes("despejado") || low.includes("limpio") || low.includes("estrella")) {
+            topic = "Física Radiativa (Cielo Despejado y Helada Nocturna)";
+            science = `Un cielo nocturno despejado actúa como una ventana abierta, permitiendo que todo el calor acumulado en el suelo escape al espacio exterior por radiación infrarroja, provocando heladas severas (${t.temp} °C).`;
+            precautions = "1. Abrigarse adecuadamente y evitar exposición prolongada al frío en la madrugada.\n2. Proteger cultivos con riego nocturno o cobertizos.";
+        } else if (low.includes("puma") || low.includes("zorro") || low.includes("animal")) {
+            topic = "Comportamiento de Fauna Silvestre (Zonas Altas)";
+            science = `Las bajas temperaturas en la puna alta (${t.temp} °C) o la escasez temporal de presas obligan a carnívoros como el puma o zorro a descender hacia quebradas y valles.`;
+            precautions = "1. Asegurar corrales y ganado menor (ovejas, corderos) en cobertizos cerrados por las noches.\n2. No acosar a la fauna silvestre.";
+        } else if (low.includes("sapo") || low.includes("hampatu")) {
+            topic = "Bioindicador Anfibio (Sensibilidad Barométrica)";
+            science = `Los anfibios detectan la caída de presión barométrica y alta humedad relativa (${t.rh}%) antes de precipitaciones convectivas.`;
+            precautions = "Mantener buenas prácticas de higiene y drenaje en zonas residenciales cercanas a acequias.";
         }
 
-        return { topic, science };
+        return { topic, science, precautions };
     }
 
     function submitAndAnalyzeWithAI() {
-        const name = document.getElementById('in-name').value.trim() || "Estudiante";
-        const school = document.getElementById('in-school').value.trim();
+        const name = document.getElementById('in-name').value.trim() || "Estudiante Anónimo";
+        const school = document.getElementById('in-school').value.trim() || "Colegio de Huancavelica";
         const t = getCurrentTownObj();
         const rawObs = document.getElementById('in-obs').value.trim();
-        const rawPred = document.getElementById('in-pred').value.trim() || "Cambio ambiental";
+        const rawPred = document.getElementById('in-pred').value.trim() || "Fenómeno registrado";
 
-        if (rawObs.length < 3) { alert("Escribe tu observación."); return; }
+        if (rawObs.length < 3) { alert("Escribe lo que observaste en tu comunidad."); return; }
 
         const analysis = analyzeDynamicObservation(rawObs, rawPred, t);
         const chatBox = document.getElementById('chat-box');
@@ -627,14 +678,68 @@
         `;
         chatBox.scrollTop = chatBox.scrollHeight;
 
+        // Registrar en el Verificador con opción de generar PDF
+        const caseId = Date.now();
+        verificationCases.unshift({
+            id: caseId,
+            student: name,
+            school: school,
+            dateLoc: `${t.name} (${t.alt})`,
+            signal: rawObs,
+            pred: rawPred,
+            nasaMeasured: `NASA: ${t.rain} mm / T.Mín: ${t.temp}°C`,
+            verdict: "✅ Validado por NASA",
+            science: analysis.science,
+            precautions: analysis.precautions,
+            topic: analysis.topic
+        });
+
         communityReports.unshift({
-            student: `${name} (4° Sec.)`, school, town: `${t.name} • ${t.lat}°, ${t.lon}°`,
-            rawObs, cleanObs: rawObs, pred: rawPred, aiSummary: analysis.science
+            student: `${name}`, school, town: `${t.name} • ${t.lat}°, ${t.lon}°`,
+            rawObs, pred: rawPred, aiSummary: analysis.science
         });
 
         renderAllViews();
         document.getElementById('in-obs').value = '';
         document.getElementById('in-pred').value = '';
+        alert("¡Reporte analizado, registrado en el Verificador y listo para generar su Reporte PDF!");
+    }
+
+    function openPdfReport(id) {
+        const item = verificationCases.find(c => c.id === id) || verificationCases[0];
+        const body = document.getElementById('pdf-content-body');
+        body.innerHTML = `
+            <table style="width:100%; border-collapse:collapse; margin-bottom:1rem; font-size:0.85rem;">
+                <tr><td style="padding:4px; border:1px solid #cbd5e1;"><strong>Estudiante Investigador:</strong> ${item.student}</td><td style="padding:4px; border:1px solid #cbd5e1;"><strong>Colegio:</strong> ${item.school || "I.E. Huancavelica"}</td></tr>
+                <tr><td style="padding:4px; border:1px solid #cbd5e1;"><strong>Ubicación / Microcuenca:</strong> ${item.dateLoc}</td><td style="padding:4px; border:1px solid #cbd5e1;"><strong>Fecha de Emisión:</strong> ${new Date().toLocaleDateString('es-PE')}</td></tr>
+            </table>
+
+            <h4 style="color:#0f172a; margin-top:1rem; border-bottom:1px solid #0f172a; padding-bottom:3px;">1. SEÑAL O BIOINDICADOR REPORTADO</h4>
+            <p style="margin:0.5rem 0; background:#f1f5f9; padding:0.6rem; border-radius:6px;">"${item.signal}"</p>
+
+            <h4 style="color:#0f172a; margin-top:1rem; border-bottom:1px solid #0f172a; padding-bottom:3px;">2. PREDICCIÓN EMPÍRICA / COMUNITARIA</h4>
+            <p style="margin:0.5rem 0;">${item.pred}</p>
+
+            <h4 style="color:#0f172a; margin-top:1rem; border-bottom:1px solid #0f172a; padding-bottom:3px;">3. ANÁLISIS CIENTÍFICO Y CRUCE NASA POWER</h4>
+            <p style="margin:0.5rem 0;"><strong>Categoría:</strong> ${item.topic || "Observación Andina"}</p>
+            <p style="margin:0.5rem 0;">${item.science}</p>
+            <p style="margin:0.5rem 0; font-family:monospace; background:#f8fafc; padding:0.4rem;">Telemetry Check: ${item.nasaMeasured}</p>
+
+            <h4 style="color:#0f172a; margin-top:1rem; border-bottom:1px solid #0f172a; padding-bottom:3px;">4. PRECAUCIONES Y RECOMENDACIONES PRÁCTICAS</h4>
+            <div style="background:#fffbeb; border-left:4px solid #f59e0b; padding:0.8rem; margin-top:0.5rem; white-space:pre-line; font-size:0.85rem;">
+                ${item.precautions || "1. Mantenerse atento a los boletines oficiales de la municipalidad y SENAMHI.\n2. Proteger cultivos y ganado ante cambios bruscos de temperatura."}
+            </div>
+
+            <div style="margin-top:2.5rem; display:flex; justify-content:space-between; font-size:0.75rem; color:#64748b;">
+                <div>____________________________________<br>Firma del Estudiante Investigador</div>
+                <div>____________________________________<br>Validación Científica Amauta-Space</div>
+            </div>
+        `;
+        document.getElementById('pdf-modal').classList.remove('hidden');
+    }
+
+    function closePdfModal() {
+        document.getElementById('pdf-modal').classList.add('hidden');
     }
 
     function sendDirectChat() {
@@ -669,11 +774,13 @@
     }
 
     function saveSimulatedElderAudio() {
-        const elder = document.getElementById('elder-name').value;
-        const sum = document.getElementById('elder-summary').value;
+        const elder = document.getElementById('elder-name').value.trim() || "Sabio Mayor";
+        const sum = document.getElementById('elder-summary').value.trim();
+        if (!sum) { alert("Escribe el relato del abuelo."); return; }
         elderArchive.unshift({ elder, comm: "Huancavelica", summary: sum, date: "Hoy" });
         renderAllViews();
-        alert("¡Registro guardado correctamente!");
+        document.getElementById('elder-summary').value = '';
+        alert("¡Registro oral guardado con éxito!");
     }
 
     function switchLabTab(num) {
@@ -695,30 +802,30 @@
     function renderAllViews() {
         document.getElementById('verifier-tbody').innerHTML = verificationCases.map(c => `
             <tr>
-                <td><strong>${c.dateLoc}</strong></td>
+                <td><strong>${c.student || "Estudiante"}</strong><br><small style="color:var(--text-muted)">${c.dateLoc}</small></td>
                 <td>${c.signal}</td>
                 <td>${c.pred}</td>
                 <td style="font-family:var(--mono);">${c.nasaMeasured}</td>
-                <td><span class="badge-ok">${c.verdict}</span></td>
+                <td><button class="pdf-btn" onclick="openPdfReport(${c.id})">📄 Ver Reporte PDF</button></td>
             </tr>
         `).join('');
 
-        document.getElementById('elder-archive-list').innerHTML = elderArchive.map(e => `
-            <div style="background:rgba(15,23,42,0.9); padding:0.75rem; border-radius:8px; margin-bottom:0.5rem; border:1px solid var(--border);">
+        document.getElementById('elder-archive-list').innerHTML = elderArchive.length ? elderArchive.map(e => `
+            <div style="background:rgba(15,23,42,0.9); padding:0.75rem; border-radius:8px; margin-top:0.5rem; border:1px solid var(--border);">
                 <strong style="color:var(--amber); font-size:0.8rem;">👴🏽 ${e.elder} (${e.comm})</strong>
                 <p style="font-size:0.82rem; margin-top:0.2rem;">${e.summary}</p>
             </div>
-        `).join('');
+        `).join('') : '<div style="font-size:0.78rem; color:var(--text-muted); margin-top:0.5rem;">Aún no hay registros orales guardados.</div>';
 
-        document.getElementById('admin-tbody').innerHTML = communityReports.map(r => `
+        document.getElementById('admin-tbody').innerHTML = verificationCases.length ? verificationCases.map(r => `
             <tr>
-                <td><strong>${r.student}</strong><br><small style="color:var(--text-muted)">${r.school}</small></td>
-                <td>${r.town}</td>
-                <td>"${r.rawObs}"</td>
+                <td><strong>${r.student}</strong><br><small style="color:var(--text-muted)">${r.school || "Colegio"}</small></td>
+                <td>${r.dateLoc}</td>
+                <td>"${r.signal}"</td>
                 <td>${r.pred}</td>
-                <td style="color:var(--emerald)">${r.aiSummary}</td>
+                <td style="color:var(--emerald)">${r.science.substring(0, 90)}...</td>
             </tr>
-        `).join('');
+        `).join('') : '<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">No hay reportes todavía.</td></tr>';
     }
 
     window.addEventListener('DOMContentLoaded', () => {
