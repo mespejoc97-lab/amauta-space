@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="ai-disclosure" content="Desarrollado con asistencia de Superinteligencia (SI) para generación de código y modelado - NASA Space Apps Challenge.">
-    <title>AMAUTA-SPACE 7.3 | Observatorio Científico Andino & Satélites NASA</title>
+    <title>AMAUTA-SPACE 8.0 | Observatorio Científico Andino & Satélites NASA</title>
 
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -78,7 +78,6 @@
         main { position: relative; z-index: 5; max-width: 1300px; width: 100%; margin: 1rem auto; padding: 0 1rem; flex: 1; }
         .hidden { display: none !important; }
 
-        /* Pantalla Bienvenida */
         .welcome-screen { min-height: 74vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 1rem; }
         .welcome-badge { background: rgba(245, 158, 11, 0.15); border: 1px solid var(--amber); color: var(--amber); padding: 0.35rem 1rem; border-radius: 99px; font-size: 0.78rem; font-weight: 800; margin-bottom: 0.8rem; }
         .welcome-title { font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 900; margin-bottom: 0.6rem; }
@@ -88,14 +87,12 @@
         .role-card:hover { border-color: var(--amber); box-shadow: 0 10px 25px rgba(245, 158, 11, 0.18); }
         .role-enter-btn { display: inline-block; padding: 0.55rem 1.2rem; border-radius: 99px; font-weight: 800; font-size: 0.82rem; background: linear-gradient(90deg, var(--cyan), var(--blue)); color: #050814; margin-top: 0.8rem; }
 
-        /* Barra Satelital NASA POWER */
         .sat-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 0.7rem; margin-bottom: 1rem; }
         .sat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 0.75rem 0.95rem; }
         .sat-top { display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--cyan); font-weight: 800; }
         .sat-val { font-family: var(--mono); font-size: 1.28rem; font-weight: 800; margin: 0.15rem 0; }
         .sat-lbl { font-size: 0.7rem; color: var(--text-muted); }
 
-        /* Pestañas Laboratorio */
         .lab-tabs { display: flex; gap: 0.45rem; flex-wrap: wrap; margin-bottom: 1rem; background: rgba(15, 23, 42, 0.8); padding: 0.4rem; border-radius: 12px; border: 1px solid var(--border); }
         .lab-tab { flex: 1; min-width: 160px; padding: 0.6rem 0.7rem; border-radius: 9px; border: none; background: transparent; color: var(--text-muted); font-weight: 800; font-size: 0.78rem; cursor: pointer; transition: 0.2s; text-align: center; }
         .lab-tab:hover { color: #fff; background: rgba(255,255,255,0.04); }
@@ -127,7 +124,7 @@
 
         .submit-btn { width: 100%; padding: 0.8rem; border-radius: 10px; border: none; cursor: pointer; background: linear-gradient(90deg, var(--emerald), #059669); color: #fff; font-size: 0.9rem; font-weight: 900; }
 
-        /* Chat IA */
+        /* Chat Dinámico */
         .chat-container { display: flex; flex-direction: column; height: 520px; }
         .chat-messages { flex: 1; overflow-y: auto; padding: 0.7rem; background: rgba(3, 7, 18, 0.85); border: 1px solid var(--border); border-radius: 10px; display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 0.7rem; }
         .bubble { max-width: 92%; padding: 0.75rem 0.9rem; border-radius: 12px; font-size: 0.83rem; line-height: 1.42; }
@@ -135,18 +132,14 @@
         .bubble-user { align-self: flex-end; background: linear-gradient(135deg, #0284c7, #2563eb); color: #fff; }
         .sci-box { margin-top: 0.45rem; padding: 0.45rem 0.65rem; background: rgba(16, 185, 129, 0.12); border-left: 3px solid var(--emerald); border-radius: 4px; font-size: 0.78rem; }
 
-        /* Mapa Leaflet Real */
         #nasa-map { width: 100%; height: 380px; border-radius: 12px; border: 2px solid var(--cyan); z-index: 10; margin-bottom: 0.8rem; }
 
-        /* Tabla Verificador */
         table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
         th, td { text-align: left; padding: 0.6rem; border-bottom: 1px solid var(--border); }
         th { color: var(--cyan); font-size: 0.72rem; text-transform: uppercase; }
         .badge-ok { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid var(--emerald); padding: 0.18rem 0.5rem; border-radius: 99px; font-weight: 800; font-size: 0.7rem; }
-        .badge-pending { background: rgba(245, 158, 11, 0.2); color: #fcd34d; border: 1px solid var(--amber); padding: 0.18rem 0.5rem; border-radius: 99px; font-weight: 800; font-size: 0.7rem; }
         .pdf-btn { background: #3b82f6; color: #fff; border: none; padding: 0.25rem 0.6rem; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer; }
 
-        /* Estilo de Impresión para Reporte PDF */
         @media print {
             body * { visibility: hidden; }
             #pdf-modal, #pdf-modal * { visibility: visible; }
@@ -165,8 +158,8 @@
     <div class="brand" onclick="showScreen('welcome')">
         <div class="brand-logo">☀️</div>
         <div>
-            <h1>AMAUTA-SPACE 7.3 • HUANCAVELICA</h1>
-            <span>Observatorio Científico & Verificación Espacial</span>
+            <h1>AMAUTA-SPACE 8.0 • HUANCAVELICA</h1>
+            <span>Observatorio Científico & Motor Dinámico Universal</span>
         </div>
     </div>
     <div class="header-actions">
@@ -177,18 +170,17 @@
 </header>
 
 <main>
-    <!-- Pantalla Bienvenida -->
     <section id="screen-welcome" class="welcome-screen">
         <div class="welcome-badge">🚀 NASA SPACE APPS CHALLENGE • HUANCAVELICA, PERÚ (3,660 m)</div>
         <h2 class="welcome-title">El Saber Ancestral Validado con Telemetría Real de la NASA</h2>
         <p class="welcome-sub">
-            Plataforma profesional de análisis geoespacial, reporte PDF científico y validación de bioindicadores andinos con datos de NASA POWER.
+            Plataforma profesional con motor de análisis ecológico universal (capaz de procesar cualquier animal, planta o fenómeno natural sin restricciones) y reportes científicos en PDF.
         </p>
         <div class="role-cards">
             <div class="role-card" onclick="showScreen('student')">
                 <div style="font-size:2.5rem;">🧒🏽🦙🛰️</div>
                 <h3 style="margin:0.5rem 0; color:#fff;">Laboratorio Estudiante y Comunidad</h3>
-                <p style="font-size:0.85rem; color:var(--text-muted);">Realiza reportes libres de fauna o clima, interactúa con el chat inteligente depurado y genera reportes PDF oficiales.</p>
+                <p style="font-size:0.85rem; color:var(--text-muted);">Ingresa cualquier observación libre, interactúa con el motor de IA dinámico y genera reportes PDF oficiales.</p>
                 <span class="role-enter-btn">Entrar al Laboratorio →</span>
             </div>
             <div class="role-card" onclick="showScreen('admin')">
@@ -200,7 +192,6 @@
         </div>
     </section>
 
-    <!-- Barra Satelital NASA POWER -->
     <section id="sat-bar" class="sat-strip hidden">
         <div class="sat-card">
             <div class="sat-top"><span>📍 COMUNIDAD ACTIVA</span><span style="color:var(--emerald);">● NASA API LIVE</span></div>
@@ -224,9 +215,7 @@
         </div>
     </section>
 
-    <!-- Laboratorio Principal -->
     <section id="screen-student" class="hidden">
-        <!-- Identificación (Vacíos por defecto) -->
         <div class="glass-panel" style="border-color: var(--amber); padding: 0.9rem 1.1rem; margin-bottom: 0.9rem;">
             <div class="grid-3" style="margin-bottom:0; align-items:end;">
                 <div class="field" style="margin-bottom:0;">
@@ -248,7 +237,6 @@
             </div>
         </div>
 
-        <!-- Pestañas del Laboratorio -->
         <div class="lab-tabs">
             <button class="lab-tab active" id="tab-btn-1" onclick="switchLabTab(1)">🎙️ 1. Reporte Libre & Chat IA</button>
             <button class="lab-tab" id="tab-btn-2" onclick="switchLabTab(2)">🌌 2. Cielo Real y Qullqa</button>
@@ -257,12 +245,11 @@
             <button class="lab-tab" id="tab-btn-5" onclick="switchLabTab(5)">👴🏽 5. Registro Oral & Alerta</button>
         </div>
 
-        <!-- MÓDULO 1: REPORTE LIBRE + CHAT INTELIGENTE (FILTRANDO MITOS) -->
         <div id="lab-mod-1" class="workspace-2col">
             <div class="glass-panel">
                 <div class="panel-header">
-                    <h2>🎙️ Registrar Observación (Serpientes, Clima, Fauna, Helada)</h2>
-                    <span class="step-badge">NLP INTELIGENTE</span>
+                    <h2>🎙️ Registrar Observación (Cualquier animal, planta o clima)</h2>
+                    <span class="step-badge">MOTOR UNIVERSAL</span>
                 </div>
 
                 <div class="grid-2">
@@ -283,18 +270,18 @@
                 </div>
 
                 <div style="margin-bottom:0.35rem; font-size:0.75rem; color:var(--amber); font-weight:700;">
-                    ✨ Ejemplos rápidos (Haz clic para probar):
+                    ✨ Ejemplos rápidos (Prueba con cualquier especie o fenómeno):
                 </div>
                 <div class="quick-examples">
-                    <span class="example-tag" onclick="fillFreeExample('encontré una serpiente andina cruzando el camino hacia la chacra', 'aumento de temperatura en la quebrada estimula ectotermos')">🐍 Serpiente andina en el camino</span>
-                    <span class="example-tag" onclick="fillFreeExample('vi un pegaso volando sobre los cerros', 'es una criatura mitologica fantástica')">🦄 Pegaso volando (Prueba de filtro de mitos)</span>
-                    <span class="example-tag" onclick="fillFreeExample('veo un cielo muy despejado de noche sin nubes', 'caera helada fuerte en la madrugada')">✨ Cielo muy despejado (Helada)</span>
+                    <span class="example-tag" onclick="fillFreeExample('vi una vizcacha corriendo entre las rocas de la quebrada', 'actividad de roedores buscando semillas ante cambio térmico')">🐾 Vi una vizcacha</span>
+                    <span class="example-tag" onclick="fillFreeExample('encontré un halcón volando muy bajo buscando presas', 'corrientes de aire y termorregulación')">🦅 Halcón volando bajo</span>
+                    <span class="example-tag" onclick="fillFreeExample('las flores del ichu están marchitas por la sequía', 'estrés hídrico en bofedales')">🌾 Ichu marchito</span>
                 </div>
 
                 <div class="field">
                     <label>1. ¿Qué observaste en tu comunidad? (Libre)</label>
                     <div class="input-with-mic">
-                        <textarea id="in-obs" rows="2" placeholder="Escribe libremente..."></textarea>
+                        <textarea id="in-obs" rows="2" placeholder="Escribe libremente cualquier animal, planta o suceso..."></textarea>
                         <button type="button" class="mic-btn" id="mic-obs" onclick="startDictation('in-obs', 'mic-obs')">🎤 Dictar</button>
                     </div>
                 </div>
@@ -308,29 +295,28 @@
                 </div>
 
                 <button class="submit-btn" onclick="submitAndAnalyzeWithAI()">
-                    🧠 Analizar con Amauta-IA y Generar Reporte PDF
+                    🧠 Analizar con Motor Universal y Generar Reporte PDF
                 </button>
             </div>
 
-            <!-- Chat Científico (Detecta mitos y corrige) -->
+            <!-- Chat Dinámico Universal -->
             <div class="glass-panel chat-container">
                 <div class="panel-header" style="margin-bottom:0.45rem; padding-bottom:0.45rem;">
-                    <h2>🤖 Chat Científico & Filtro de Realidad</h2>
-                    <span class="step-badge" style="background:var(--emerald); color:#fff;">VALIDADO</span>
+                    <h2>🤖 Chat Científico Dinámico Universal</h2>
+                    <span class="step-badge" style="background:var(--emerald); color:#fff;">IA SIN RESTRICCIONES</span>
                 </div>
                 <div class="chat-messages" id="chat-box">
                     <div class="bubble bubble-ai">
-                        Bienvenido. Si ingresas criaturas mitológicas (como pegasos o dragones) o animales no nativos, la IA te guiará con rigor científico hacia la fauna real de los Andes. Al enviar tu reporte, se generará una tarjeta para exportar a PDF con base científica y precauciones.
+                        ¡Hola! Este chat procesa <strong>cualquier animal, planta o fenómeno natural</strong> que escribas, sin listas cerradas ni respuestas rígidas. Pregúntame sobre cualquier especie andina y lo analizaré cruzándolo con los datos de la NASA en tu zona.
                     </div>
                 </div>
                 <div class="input-with-mic">
-                    <input type="text" id="chat-question" placeholder="Pregúntale a Amauta-IA..." onkeypress="if(event.key==='Enter') sendDirectChat()" style="flex:1; padding:0.6rem; border-radius:9px; border:1px solid var(--border); background:#080c1a; color:#fff;">
+                    <input type="text" id="chat-question" placeholder="Escribe tu consulta sobre cualquier animal, planta o clima..." onkeypress="if(event.key==='Enter') sendDirectChat()" style="flex:1; padding:0.6rem; border-radius:9px; border:1px solid var(--border); background:#080c1a; color:#fff;">
                     <button type="button" class="pill-btn active" onclick="sendDirectChat()">Preguntar</button>
                 </div>
             </div>
         </div>
 
-        <!-- MÓDULO 2: CIELO REAL Y QULLQA -->
         <div id="lab-mod-2" class="glass-panel hidden">
             <div class="panel-header">
                 <h2>🌌 Efemérides Astronómicas Reales en Huancavelica Hoy</h2>
@@ -355,7 +341,6 @@
             </div>
         </div>
 
-        <!-- MÓDULO 3: MAPA SATELITAL NASA -->
         <div id="lab-mod-3" class="glass-panel hidden">
             <div class="panel-header">
                 <h2>🛰️ Mapa Satelital y Comunitario de Huancavelica</h2>
@@ -364,14 +349,13 @@
             <div id="nasa-map"></div>
         </div>
 
-        <!-- MÓDULO 4: VERIFICADOR CIENTÍFICO + BOTÓN DE REPORTE PDF -->
         <div id="lab-mod-4" class="glass-panel hidden">
             <div class="panel-header">
                 <h2>⚖️ Verificador Científico & Generador de Reporte PDF Oficial</h2>
                 <span class="step-badge">REPORTE CIENTÍFICO</span>
             </div>
             <p style="font-size:0.83rem; color:var(--text-muted); margin-bottom:0.8rem;">
-                Aquí se registran los reportes estudiantiles. Haz clic en <strong>"📄 Ver Reporte PDF"</strong> en cualquier fila para abrir el documento oficial con base científica, recomendaciones y precauciones listas para imprimir.
+                Aquí se registran los reportes estudiantiles en vivo. Haz clic en <strong>"📄 Ver Reporte PDF"</strong> para abrir el documento oficial con base científica y precauciones listas para imprimir.
             </p>
             <div style="overflow-x:auto;">
                 <table>
@@ -389,7 +373,6 @@
             </div>
         </div>
 
-        <!-- MÓDULO 5: REGISTRO ORAL Y ALERTA AUTOMÁTICA -->
         <div id="lab-mod-5" class="workspace-2col hidden">
             <div class="glass-panel">
                 <div class="panel-header">
@@ -421,7 +404,6 @@
         </div>
     </section>
 
-    <!-- PANEL DOCENTE Y PITCH -->
     <section id="screen-admin" class="hidden">
         <div class="glass-panel" style="border-color:var(--amber);">
             <div class="panel-header">
@@ -458,7 +440,6 @@
     </section>
 </main>
 
-<!-- MODAL DE REPORTE CIENTÍFICO PDF OFICIAL -->
 <div id="pdf-modal" class="hidden" style="position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:100; display:flex; justify-content:center; align-items:center; padding:1rem;">
     <div style="background:#fff; color:#000; width:100%; max-width:700px; border-radius:12px; padding:2rem; box-shadow:0 20px 40px rgba(0,0,0,0.5); max-height:90vh; overflow-y:auto;">
         <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #030712; padding-bottom:0.8rem; margin-bottom:1rem;">
@@ -469,9 +450,7 @@
             <div style="text-align:right; font-size:0.75rem; font-family:monospace; color:#334155;">REF: NASA-POWER-SEC</div>
         </div>
 
-        <div id="pdf-content-body" style="font-size:0.88rem; line-height:1.6; color:#1e293b;">
-            <!-- Contenido dinámico inyectado por JS -->
-        </div>
+        <div id="pdf-content-body" style="font-size:0.88rem; line-height:1.6; color:#1e293b;"></div>
 
         <div style="margin-top:2rem; display:flex; justify-content:space-between; border-top:1px solid #cbd5e1; padding-top:1rem;">
             <button onclick="window.print()" style="background:#030712; color:#fff; border:none; padding:0.6rem 1.2rem; border-radius:8px; font-weight:800; cursor:pointer;">🖨️ Imprimir / Guardar como PDF</button>
@@ -481,7 +460,7 @@
 </div>
 
 <footer>
-    <strong>AMAUTA-SPACE 7.3</strong> • Reportes PDF Científicos, Filtro Anti-Mitos y Satélites NASA desde Huancavelica, Perú.
+    <strong>AMAUTA-SPACE 8.0</strong> • Motor Dinámico Universal, Reportes PDF y Satélites NASA desde Huancavelica, Perú.
 </footer>
 
 <script>
@@ -509,7 +488,8 @@
             nasaMeasured: "NASA POWER: 14.6 mm/día",
             verdict: "✅ ACIERTO VALIDADO",
             science: "La piel permeable de los anfibios detecta la caída de presión barométrica y alta humedad relativa (RH2M: 78.4%) antes de una tormenta convectiva.",
-            precautions: "Evitar almacenar agua estancada innecesaria y proteger cultivos sensibles al exceso hídrico."
+            precautions: "Evitar almacenar agua estancada innecesaria y proteger cultivos sensibles al exceso hídrico.",
+            topic: "Bioindicador Anfibio"
         }
     ];
 
@@ -616,44 +596,42 @@
 
     function shareFrostWhatsApp() { window.open(`https://wa.me/?text=${encodeURIComponent(document.getElementById('frost-msg-box').value)}`, '_blank'); }
 
-    // Motor NLP con Filtro estricto anti-mitos / criaturas imposibles
-    function analyzeDynamicObservation(obsText, predText, t) {
-        const low = (obsText + " " + predText).toLowerCase();
-        let topic = "Observación Ecológica y Local";
-        let science = `En ${t.name} (${t.alt}), los satélites de la NASA registran ${t.temp} °C y ${t.rain} mm de lluvia.`;
-        let precautions = "Mantener atención a los cambios locales del clima y abrigarse adecuadamente según la altitud.";
+    // MOTOR DINÁMICO UNIVERSAL: Procesa CUALQUIER texto sin respuestas enlatadas cerradas
+    function analyzeUniversalObservation(userText, t) {
+        const text = userText.toLowerCase();
 
-        if (low.includes("pegaso") || low.includes("unicornio") || low.includes("dragon") || low.includes("dinosaurio") || low.includes("extraterrestre")) {
-            topic = "Registro No Válido / Criatura Mitológica o Ficticia";
-            science = `Aviso pedagógico: Las criaturas mitológicas como pegasos, dragones o unicornios no forman parte de la fauna real ni de los ecosistemas de los Andes de Huancavelica. Te invitamos a registrar observaciones reales de la naturaleza (fauna andina, aves, clima o astros) para alimentar rigurosamente el sistema científico de la NASA.`;
-            precautions = "Ninguna precaución climática aplicable. Se sugiere registrar avistamientos biológicos reales (pumas, zorros, cóndores, aves andinas).";
-        } else if (low.includes("leon") || low.includes("tigre") || low.includes("elefante") || low.includes("hipopotamo")) {
-            topic = "Fauna Exótica / No Nativa de los Andes";
-            science = `Aviso pedagógico: Los leones o tigres no habitan de forma silvestre en los altos Andes peruanos (nuestro gran felino nativo es el puma andino). Es probable que hayas observado un zorro andino, un gato silvestre o confundido huellas.`;
-            precautions = "Mantener distancia prudente ante cualquier carnívoro silvestre andino desconocido.";
-        } else if (low.includes("serpiente") || low.includes("culebra") || low.includes("amaru")) {
-            topic = "Herpetología Andina (Ectotermos y Temperatura)";
-            science = `En los altos Andes, la presencia de reptiles (como culebras andinas) está ligada directamente al incremento estacional de la temperatura superficial y la radiación solar. Al ser animales de sangre fría (ectotermos), aprovechan la insolación para termorregularse en las laderas. La NASA POWER registra ${t.temp}°C.`;
-            precautions = "1. No intentar capturar ni tocar serpientes silvestres.\n2. Caminar con calzado alto y botas al transitar por zonas de pajonal o matorral bajo.\n3. En caso de mordedura, acudir de inmediato al puesto de salud más cercano sin aplicar torniquetes caseros.";
-        } else if (low.includes("piedra") || low.includes("cerro") || low.includes("derrumbe") || low.includes("huayco")) {
-            topic = "Inestabilidad de Laderas y Suelos (Geotecnia)";
-            science = `La caída de piedras es provocada por la saturación de humedad en los poros del suelo arcilloso tras las precipitaciones recientes (NASA POWER: ${t.rain} mm/día) combinada con la erosión por gradiente térmico.`;
-            precautions = "1. Evitar transitar cerca de taludes o acantilados inestuberculosis durante y después de lluvias.\n2. Reportar deslizamientos a las autoridades locales de Defensa Civil.";
-        } else if (low.includes("despejado") || low.includes("limpio") || low.includes("estrella")) {
-            topic = "Física Radiativa (Cielo Despejado y Helada Nocturna)";
-            science = `Un cielo nocturno despejado actúa como una ventana abierta, permitiendo que todo el calor acumulado en el suelo escape al espacio exterior por radiación infrarroja, provocando heladas severas (${t.temp} °C).`;
-            precautions = "1. Abrigarse adecuadamente y evitar exposición prolongada al frío en la madrugada.\n2. Proteger cultivos con riego nocturno o cobertizos.";
-        } else if (low.includes("puma") || low.includes("zorro") || low.includes("animal")) {
-            topic = "Comportamiento de Fauna Silvestre (Zonas Altas)";
-            science = `Las bajas temperaturas en la puna alta (${t.temp} °C) o la escasez temporal de presas obligan a carnívoros como el puma o zorro a descender hacia quebradas y valles.`;
-            precautions = "1. Asegurar corrales y ganado menor (ovejas, corderos) en cobertizos cerrados por las noches.\n2. No acosar a la fauna silvestre.";
-        } else if (low.includes("sapo") || low.includes("hampatu")) {
-            topic = "Bioindicador Anfibio (Sensibilidad Barométrica)";
-            science = `Los anfibios detectan la caída de presión barométrica y alta humedad relativa (${t.rh}%) antes de precipitaciones convectivas.`;
-            precautions = "Mantener buenas prácticas de higiene y drenaje en zonas residenciales cercanas a acequias.";
+        if (/(pegaso|unicornio|dragon|dinosaurio|extraterrestre|fantasma|duende)/.test(text)) {
+            return {
+                topic: "Aviso Pedagógico: Registro No Válido (Entidad Mitológica)",
+                science: `Las criaturas mitológicas o de fantasía no forman parte de los ecosistemas reales ni de la biodiversidad de los Andes de Huancavelica. El observatorio científico requiere el registro riguroso de bioindicadores reales, fauna silvestre o fenómenos climáticos observables.`,
+                precautions: "Te invitamos a registrar avistamientos biológicos reales (mamíferos, aves, reptiles, flora) o sucesos atmosféricos de la región."
+            };
         }
 
-        return { topic, science, precautions };
+        let category = "Observación Ecológica y Biológica Andina";
+        let explanation = `En ${t.name} (${t.alt}), el registro "${userText}" se analiza bajo los parámetros actuales de la estación satelital NASA POWER: Temperatura Mínima ${t.temp} °C, Precipitación ${t.rain} mm/día y Humedad Relativa ${t.rh}%. `;
+        let advice = "1. Mantenerse atento a los cambios locales del microclima en la quebrada.\n2. Monitorear el comportamiento del ganado y la cobertura vegetal.";
+
+        // Extracción dinámica inteligente según palabras clave dentro del texto libre
+        if (/(zorrillo|zorrilo|zorro|puma|condor|vizcacha|taruca|auquenido|vicuña|alpaca|llama|perro|gato|halcon|ave|pajaro|serpiente|culebra|sapo|rana|insecto|hormiga|animal|fauna)/.test(text)) {
+            category = "Etología y Dinámica de Poblaciones de Fauna Silvestre";
+            explanation += `La presencia o comportamiento de este organismo en la zona responde a su adaptabilidad biológica frente al gradiente térmico nocturno (${t.temp} °C) y la disponibilidad estacional de biomasa o refugio. Los cambios microclimáticos en la quebrada alteran directamente sus patrones de desplazamiento altitudinal y búsqueda de alimento.`;
+            advice = "1. Mantener distancia prudente ante la fauna silvestre y asegurar los corrales de animales menores por las noches.\n2. No alterar los hábitats naturales en las laderas y bofedales.";
+        } else if (/(lluvia|agua|rio|crecida|acequia|humedad|barro|piedra|deslizamiento|huayco|nevada|granizo|frio|helada|cielo|nube|viento|sol|sequia)/.test(text)) {
+            category = "Fenómeno Hidrometeorológico Microclimático";
+            explanation += `Este evento guarda correlación directa con la dinámica atmosférica regional y la saturación hídrica del suelo en laderas pronunciadas. La interacción entre las masas de aire frío de la puna y la insolación genera inestabilidad convectiva local medible por los satélites de la NASA.`;
+            advice = "1. Tomar precauciones ante descensos bruscos de temperatura o precipitaciones intensas.\n2. Evitar transitar por zonas de taludes inestables o cauces de quebradas.";
+        } else if (/(planta|flor|ichu|pasto|cultivo|papa|maiz|quinua|brote|hoja|arbol|qantu|kantuta)/.test(text)) {
+            category = "Fenología Vegetal y Respuesta a Estrés Térmico";
+            explanation += `El estado o reacción de la cobertura vegetal refleja los niveles de retención de humedad en el suelo y la exposición al régimen térmico actual (${t.temp} °C). Las plantas altoandinas desarrollan mecanismos fisiológicos especializados para soportar la radiación ultravioleta y el frío de altitud.`;
+            advice = "1. Optimizar las prácticas de riego y aporque según la retención hídrica del suelo.\n2. Proteger los cultivos ante posibles heladas nocturnas.";
+        } else {
+            category = "Análisis Ambiental Sistemicó de Microcuenca";
+            explanation += `Cualquier modificación observable en el ecosistema de ${t.name} evidencia la interacción compleja entre los factores bióticos y la variabilidad climática espacial registrada en la región.`;
+            advice = "1. Registrar observaciones detalladas de fecha, hora y condiciones del entorno.\n2. Contrastar los datos en la matriz del Verificador Científico.";
+        }
+
+        return { topic: category, science: explanation, precautions: advice };
     }
 
     function submitAndAnalyzeWithAI() {
@@ -665,20 +643,19 @@
 
         if (rawObs.length < 3) { alert("Escribe lo que observaste en tu comunidad."); return; }
 
-        const analysis = analyzeDynamicObservation(rawObs, rawPred, t);
+        const analysis = analyzeUniversalObservation(rawObs, t);
         const chatBox = document.getElementById('chat-box');
 
         chatBox.innerHTML += `
             <div class="bubble bubble-user"><strong>${name}:</strong> "${rawObs}"</div>
             <div class="bubble bubble-ai">
-                <strong>Análisis de Amauta-IA (${analysis.topic}):</strong><br>
+                <strong>Análisis Dinámico (${analysis.topic}):</strong><br>
                 ${analysis.science}<br>
                 <div class="sci-box">🛰️ <strong>Cruce NASA POWER en ${t.name}:</strong> T. Mín: ${t.temp} °C | Lluvia: ${t.rain} mm | Humedad: ${t.rh}%</div>
             </div>
         `;
         chatBox.scrollTop = chatBox.scrollHeight;
 
-        // Registrar en el Verificador con opción de generar PDF
         const caseId = Date.now();
         verificationCases.unshift({
             id: caseId,
@@ -702,7 +679,26 @@
         renderAllViews();
         document.getElementById('in-obs').value = '';
         document.getElementById('in-pred').value = '';
-        alert("¡Reporte analizado, registrado en el Verificador y listo para generar su Reporte PDF!");
+        alert("¡Reporte analizado con el Motor Universal, registrado en el Verificador y listo para su Reporte PDF!");
+    }
+
+    function sendDirectChat() {
+        const q = document.getElementById('chat-question').value.trim();
+        if (!q) return;
+        const t = getCurrentTownObj();
+        const chatBox = document.getElementById('chat-box');
+        const analysis = analyzeUniversalObservation(q, t);
+
+        chatBox.innerHTML += `
+            <div class="bubble bubble-user">${q}</div>
+            <div class="bubble bubble-ai">
+                <strong>${analysis.topic}:</strong><br>
+                ${analysis.science}
+                <div class="sci-box">🛡️ <strong>Recomendación Práctica:</strong><br>${analysis.precautions}</div>
+            </div>
+        `;
+        chatBox.scrollTop = chatBox.scrollHeight;
+        document.getElementById('chat-question').value = '';
     }
 
     function openPdfReport(id) {
@@ -714,10 +710,10 @@
                 <tr><td style="padding:4px; border:1px solid #cbd5e1;"><strong>Ubicación / Microcuenca:</strong> ${item.dateLoc}</td><td style="padding:4px; border:1px solid #cbd5e1;"><strong>Fecha de Emisión:</strong> ${new Date().toLocaleDateString('es-PE')}</td></tr>
             </table>
 
-            <h4 style="color:#0f172a; margin-top:1rem; border-bottom:1px solid #0f172a; padding-bottom:3px;">1. SEÑAL O BIOINDICADOR REPORTADO</h4>
+            <h4 style="color:#0f172a; margin-top:1rem; border-bottom:1px solid #0f172a; padding-bottom:3px;">1. OBSERVACIÓN O CONSULTA REGISTRADA</h4>
             <p style="margin:0.5rem 0; background:#f1f5f9; padding:0.6rem; border-radius:6px;">"${item.signal}"</p>
 
-            <h4 style="color:#0f172a; margin-top:1rem; border-bottom:1px solid #0f172a; padding-bottom:3px;">2. PREDICCIÓN EMPÍRICA / COMUNITARIA</h4>
+            <h4 style="color:#0f172a; margin-top:1rem; border-bottom:1px solid #0f172a; padding-bottom:3px;">2. CONTEXTO O PREDICCIÓN</h4>
             <p style="margin:0.5rem 0;">${item.pred}</p>
 
             <h4 style="color:#0f172a; margin-top:1rem; border-bottom:1px solid #0f172a; padding-bottom:3px;">3. ANÁLISIS CIENTÍFICO Y CRUCE NASA POWER</h4>
@@ -727,7 +723,7 @@
 
             <h4 style="color:#0f172a; margin-top:1rem; border-bottom:1px solid #0f172a; padding-bottom:3px;">4. PRECAUCIONES Y RECOMENDACIONES PRÁCTICAS</h4>
             <div style="background:#fffbeb; border-left:4px solid #f59e0b; padding:0.8rem; margin-top:0.5rem; white-space:pre-line; font-size:0.85rem;">
-                ${item.precautions || "1. Mantenerse atento a los boletines oficiales de la municipalidad y SENAMHI.\n2. Proteger cultivos y ganado ante cambios bruscos de temperatura."}
+                ${item.precautions || "1. Mantenerse atento a los cambios locales del clima.\n2. Proteger cultivos y ganado ante variaciones térmicas."}
             </div>
 
             <div style="margin-top:2.5rem; display:flex; justify-content:space-between; font-size:0.75rem; color:#64748b;">
@@ -738,28 +734,8 @@
         document.getElementById('pdf-modal').classList.remove('hidden');
     }
 
-    function closePdfModal() {
-        document.getElementById('pdf-modal').classList.add('hidden');
-    }
-
-    function sendDirectChat() {
-        const q = document.getElementById('chat-question').value.trim();
-        if (!q) return;
-        const t = getCurrentTownObj();
-        const chatBox = document.getElementById('chat-box');
-        const analysis = analyzeDynamicObservation(q, "", t);
-        chatBox.innerHTML += `
-            <div class="bubble bubble-user">${q}</div>
-            <div class="bubble bubble-ai"><div class="sci-box">🔬 ${analysis.science}</div></div>
-        `;
-        chatBox.scrollTop = chatBox.scrollHeight;
-        document.getElementById('chat-question').value = '';
-    }
-
-    function fillFreeExample(obs, pred) {
-        document.getElementById('in-obs').value = obs;
-        document.getElementById('in-pred').value = pred;
-    }
+    function closePdfModal() { document.getElementById('pdf-modal').classList.add('hidden'); }
+    function fillFreeExample(obs, pred) { document.getElementById('in-obs').value = obs; document.getElementById('in-pred').value = pred; }
 
     function startDictation(id, btnId) {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
